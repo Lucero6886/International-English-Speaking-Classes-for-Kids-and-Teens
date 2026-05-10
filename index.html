@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Inventions & Dream Gadgets | Interactive English Lesson</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        techDark: '#1E293B',
+                        techBlue: '#3B82F6',
+                        techPurple: '#8B5CF6',
+                        techTeal: '#14B8A6',
+                        softBg: '#F8FAFC',
+                        cardBg: '#FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F8FAFC;
+            background-image: radial-gradient(circle at 100% 0%, #E0E7FF 0%, transparent 50%), 
+                              radial-gradient(circle at 0% 100%, #F3E8FF 0%, transparent 50%);
+            color: #334155;
+            scroll-behavior: smooth;
+        }
+
+        .glass-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .expandable-content {
+            display: none;
+            animation: slideDown 0.3s ease-out forwards;
+        }
+
+        .expandable-content.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Game Styles */
+        .game-btn { transition: all 0.2s; }
+        .game-btn.selected { background-color: #DBEAFE; border-color: #3B82F6; transform: scale(1.02); }
+        .game-btn.matched { background-color: #D1FAE5; border-color: #10B981; color: #065F46; pointer-events: none; opacity: 0.8;}
+        .game-btn.error { animation: shake 0.4s; background-color: #FEE2E2; border-color: #EF4444; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #F1F5F9; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <!-- Top Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-2 bg-slate-200 z-50">
+        <div id="lessonProgress" class="h-full bg-gradient-to-r from-techBlue to-techPurple w-0 transition-all duration-500"></div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-12">
+
+        <!-- HEADER SECTION -->
+        <header class="text-center space-y-6 pt-6">
+            <div class="inline-flex items-center bg-blue-50 px-5 py-2 rounded-full border border-blue-200 text-techBlue font-bold text-sm uppercase tracking-wide">
+                <i class="fa-solid fa-laptop-code mr-2"></i> Zoom Interactive Lesson
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-techDark tracking-tight">
+                Future Tech: <br>
+                <span class="gradient-text">My Dream Gadget</span>
+            </h1>
+            
+            <div class="flex flex-wrap justify-center gap-3 text-sm font-semibold">
+                <span class="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100 text-slate-600"><i class="fa-solid fa-users text-techTeal mr-2"></i> Age: 10-14</span>
+                <span class="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100 text-slate-600"><i class="fa-solid fa-layer-group text-techTeal mr-2"></i> Level: A1-B1</span>
+                <span class="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100 text-slate-600"><i class="fa-solid fa-clock text-techTeal mr-2"></i> 60 Mins</span>
+            </div>
+
+            <div class="glass-card p-6 md:p-8 mt-6 text-left border-t-4 border-t-techTeal">
+                <h3 class="text-xl font-bold text-techDark mb-4"><i class="fa-solid fa-bullseye text-techTeal mr-2"></i> Learning Objectives</h3>
+                <ul class="grid md:grid-cols-3 gap-4 text-slate-600 font-medium">
+                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> Learn technology and invention vocabulary.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> Describe everyday problems and tech solutions.</li>
+                    <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i> Express opinions about the future fluently.</li>
+                </ul>
+            </div>
+        </header>
+
+        <!-- SECTION 1: WARM-UP -->
+        <section class="scroll-mt-20" id="sec-1">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-100 w-12 h-12 flex items-center justify-center rounded-xl text-techBlue text-2xl"><i class="fa-solid fa-fire"></i></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-techDark">1. Warm-Up</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+                <!-- Q1 -->
+                <div class="glass-card p-6">
+                    <p class="text-lg font-semibold text-slate-800 mb-4">1. What is your favorite tech device right now? 📱</p>
+                    <button class="text-techBlue font-semibold text-sm hover:underline flex items-center" onclick="toggleElement('wu-1')">
+                        <i class="fa-solid fa-lightbulb mr-2"></i> Show Example
+                    </button>
+                    <div id="wu-1" class="expandable-content mt-3 bg-blue-50 p-4 rounded-lg border border-blue-100 text-slate-700">
+                        <p><strong>Example:</strong> "My favorite device is my tablet because I can play games and watch videos on a big screen."</p>
+                    </div>
+                </div>
+                <!-- Q2 -->
+                <div class="glass-card p-6">
+                    <p class="text-lg font-semibold text-slate-800 mb-4">2. If you had a robot, what would it do for you? 🤖</p>
+                    <button class="text-techBlue font-semibold text-sm hover:underline flex items-center" onclick="toggleElement('wu-2')">
+                        <i class="fa-solid fa-lightbulb mr-2"></i> Show Example
+                    </button>
+                    <div id="wu-2" class="expandable-content mt-3 bg-blue-50 p-4 rounded-lg border border-blue-100 text-slate-700">
+                        <p><strong>Example:</strong> "If I had a robot, it would clean my room and do my math homework!"</p>
+                    </div>
+                </div>
+                <!-- Q3 -->
+                <div class="glass-card p-6">
+                    <p class="text-lg font-semibold text-slate-800 mb-4">3. Which is better: playing outside or playing video games? 🌳🎮</p>
+                    <button class="text-techBlue font-semibold text-sm hover:underline flex items-center" onclick="toggleElement('wu-3')">
+                        <i class="fa-solid fa-lightbulb mr-2"></i> Show Example
+                    </button>
+                    <div id="wu-3" class="expandable-content mt-3 bg-blue-50 p-4 rounded-lg border border-blue-100 text-slate-700">
+                        <p><strong>Example:</strong> "I think playing outside is better because I can run and get fresh air with my friends."</p>
+                    </div>
+                </div>
+                <!-- Q4 -->
+                <div class="glass-card p-6">
+                    <p class="text-lg font-semibold text-slate-800 mb-4">4. Do you want to travel to space one day? 🚀</p>
+                    <button class="text-techBlue font-semibold text-sm hover:underline flex items-center" onclick="toggleElement('wu-4')">
+                        <i class="fa-solid fa-lightbulb mr-2"></i> Show Example
+                    </button>
+                    <div id="wu-4" class="expandable-content mt-3 bg-blue-50 p-4 rounded-lg border border-blue-100 text-slate-700">
+                        <p><strong>Example:</strong> "Yes! I want to travel to space to see the stars and float without gravity."</p>
+                    </div>
+                </div>
+                <!-- Q5 -->
+                <div class="glass-card p-6 md:col-span-2">
+                    <p class="text-lg font-semibold text-slate-800 mb-4">5. What is something you hate doing every day? (Maybe a new gadget can fix it!) 😩</p>
+                    <button class="text-techBlue font-semibold text-sm hover:underline flex items-center" onclick="toggleElement('wu-5')">
+                        <i class="fa-solid fa-lightbulb mr-2"></i> Show Example
+                    </button>
+                    <div id="wu-5" class="expandable-content mt-3 bg-blue-50 p-4 rounded-lg border border-blue-100 text-slate-700">
+                        <p><strong>Example:</strong> "I hate waking up early. I need a bed that gently wakes me up with music and hot breakfast!"</p>
+                    </div>
+                </div>
+            </div>
+            <label class="flex items-center gap-2 mt-4 text-slate-500 font-medium cursor-pointer w-max">
+                <input type="checkbox" class="section-check w-5 h-5 text-techTeal rounded focus:ring-techTeal" onchange="updateProgress()"> Mark as completed
+            </label>
+        </section>
+
+        <!-- SECTION 2: VOCABULARY -->
+        <section class="scroll-mt-20" id="sec-2">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-purple-100 w-12 h-12 flex items-center justify-center rounded-xl text-techPurple text-2xl"><i class="fa-solid fa-book-open"></i></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-techDark">2. Tech Vocabulary</h2>
+            </div>
+            <p class="text-slate-600 mb-6">Click "Show Sentence" to see how to use the word. Click the speaker icon to listen!</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="vocab-grid">
+                <!-- Vocab cards generated via JS -->
+            </div>
+            <label class="flex items-center gap-2 mt-4 text-slate-500 font-medium cursor-pointer w-max">
+                <input type="checkbox" class="section-check w-5 h-5 text-techTeal rounded focus:ring-techTeal" onchange="updateProgress()"> Mark as completed
+            </label>
+        </section>
+
+        <!-- SECTIONS 3, 4, 5: MAIN SPEAKING, IDEAS & SAMPLE ANSWERS -->
+        <section class="scroll-mt-20" id="sec-3">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-teal-100 w-12 h-12 flex items-center justify-center rounded-xl text-techTeal text-2xl"><i class="fa-solid fa-microphone-lines"></i></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-techDark">3. Speaking Practice</h2>
+            </div>
+            <p class="text-slate-600 mb-6">Answer the questions. Use the <strong>Idea Bank</strong> if you are stuck, or check the <strong>Sample Answers</strong> to see how A1 vs B1 students reply.</p>
+
+            <div class="space-y-4" id="speaking-questions-container">
+                <!-- Questions generated via JS -->
+            </div>
+            <label class="flex items-center gap-2 mt-4 text-slate-500 font-medium cursor-pointer w-max">
+                <input type="checkbox" class="section-check w-5 h-5 text-techTeal rounded focus:ring-techTeal" onchange="updateProgress()"> Mark as completed
+            </label>
+        </section>
+
+        <!-- SECTION 6: ROLE-PLAY -->
+        <section class="scroll-mt-20" id="sec-6">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-orange-100 w-12 h-12 flex items-center justify-center rounded-xl text-orange-500 text-2xl"><i class="fa-solid fa-masks-theater"></i></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-techDark">4. Role-Play Scenarios</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Scenario 1 -->
+                <div class="glass-card p-6 border-t-4 border-t-orange-400">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Scenario 1: The Tech Store</h3>
+                    <p class="text-slate-600 mb-4 min-h-[4rem]">You are buying a birthday gift for your best friend. You are at an electronics store looking for a cool gadget.</p>
+                    
+                    <button class="w-full bg-orange-50 text-orange-600 font-bold py-3 rounded-xl border border-orange-200 hover:bg-orange-100 transition flex justify-center items-center" onclick="toggleElement('rp-1')">
+                        <i class="fa-solid fa-chevron-down mr-2"></i> View Roles & Hints
+                    </button>
+                    
+                    <div id="rp-1" class="expandable-content mt-4 space-y-4">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <p class="font-bold text-techDark"><i class="fa-solid fa-user text-orange-500 mr-2"></i> Student A: Customer</p>
+                            <ul class="list-disc pl-5 text-sm text-slate-600 mt-2">
+                                <li>Say what you are looking for (gift for friend).</li>
+                                <li>Ask about battery life and price.</li>
+                                <li>"Can you recommend a good gadget?"</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <p class="font-bold text-techDark"><i class="fa-solid fa-user-tie text-orange-500 mr-2"></i> Student B: Shop Assistant</p>
+                            <ul class="list-disc pl-5 text-sm text-slate-600 mt-2">
+                                <li>Greet the customer and ask to help.</li>
+                                <li>Suggest a smart watch or wireless headphones.</li>
+                                <li>"How about this one? It has a very long battery."</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 2 -->
+                <div class="glass-card p-6 border-t-4 border-t-purple-400">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Scenario 2: Shark Tank Pitch</h3>
+                    <p class="text-slate-600 mb-4 min-h-[4rem]">You invented a crazy new machine (e.g., an automatic homework-doer). Try to convince an investor to give you money!</p>
+                    
+                    <button class="w-full bg-purple-50 text-purple-600 font-bold py-3 rounded-xl border border-purple-200 hover:bg-purple-100 transition flex justify-center items-center" onclick="toggleElement('rp-2')">
+                        <i class="fa-solid fa-chevron-down mr-2"></i> View Roles & Hints
+                    </button>
+                    
+                    <div id="rp-2" class="expandable-content mt-4 space-y-4">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <p class="font-bold text-techDark"><i class="fa-solid fa-user-astronaut text-purple-500 mr-2"></i> Student A: Inventor</p>
+                            <ul class="list-disc pl-5 text-sm text-slate-600 mt-2">
+                                <li>Introduce your gadget's name and what it does.</li>
+                                <li>Explain why everyone needs it.</li>
+                                <li>"My invention is the Homework-Bot 3000. It is useful because..."</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <p class="font-bold text-techDark"><i class="fa-solid fa-user-secret text-purple-500 mr-2"></i> Student B: Investor</p>
+                            <ul class="list-disc pl-5 text-sm text-slate-600 mt-2">
+                                <li>Listen and ask difficult questions.</li>
+                                <li>Ask about the price and if it is safe.</li>
+                                <li>"That sounds cool, but is it safe for children? How much does it cost?"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label class="flex items-center gap-2 mt-4 text-slate-500 font-medium cursor-pointer w-max">
+                <input type="checkbox" class="section-check w-5 h-5 text-techTeal rounded focus:ring-techTeal" onchange="updateProgress()"> Mark as completed
+            </label>
+        </section>
+
+        <!-- SECTION 7: FLUENCY BUILDER -->
+        <section class="scroll-mt-20" id="sec-7">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-pink-100 w-12 h-12 flex items-center justify-center rounded-xl text-pink-500 text-2xl"><i class="fa-solid fa-rocket"></i></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-techDark">5. Fluency Builder</h2>
+            </div>
+            <p class="text-slate-600 mb-6">Use these sentence starters to sound more natural when you speak. Practice finishing the sentence!</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Opinion</p>
+                    <p class="font-semibold text-slate-800 break-words">"In my opinion..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Reason</p>
+                    <p class="font-semibold text-slate-800 break-words">"One reason is..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Example</p>
+                    <p class="font-semibold text-slate-800 break-words">"For example..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Routine</p>
+                    <p class="font-semibold text-slate-800 break-words">"I usually..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Agreement</p>
+                    <p class="font-semibold text-slate-800 break-words">"I totally agree."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Disagreement</p>
+                    <p class="font-semibold text-slate-800 break-words">"I'm not sure..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Preference</p>
+                    <p class="font-semibold text-slate-800 break-words">"I prefer..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Condition</p>
+                    <p class="font-semibold text-slate-800 break-words">"If I had a..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Addition</p>
+                    <p class="font-semibold text-slate-800 break-words">"Also, I think..."</p>
+                </div>
+                <div class="bg-white border-2 border-slate-100 rounded-xl p-4 text-center shadow-sm hover:border-pink-300 hover:shadow-md transition cursor-pointer">
+                    <p class="font-bold text-pink-600 text-sm mb-1">Conclusion</p>
+                    <p class="font-semibold text-slate-800 break-words">"So, that is why..."</p>
+                </div>
+            </div>
+            <label class="flex items-center gap-2 mt-4 text-slate-500 font-medium cursor-pointer w-max">
+                <input type="checkbox" class="section-check w-5 h-5 text-techTeal rounded focus:ring-techTeal" onchange="updateProgress()"> Mark as completed
+            </label>
+        </section>
+
+        <!-- SECTION 8: REVIEW GAME -->
+        <section class="scroll-mt-20" id="sec-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-yellow-100 w-12 h-12 flex items-center justify-center rounded-xl text-yellow-600 text-2xl"><i class="fa-solid fa-gamepad"></i></div>
+                <h2 class="text-2xl md:text-3xl font-bold text-techDark">6. Match the Tech!</h2>
+            </div>
+            <p class="text-slate-600 mb-6">Click a vocabulary word, then click its correct definition. Match them all to win!</p>
+
+            <div class="grid grid-cols-2 gap-4 md:gap-8" id="matching-game">
+                <!-- Column 1: Words -->
+                <div class="space-y-3" id="word-col"></div>
+                <!-- Column 2: Definitions -->
+                <div class="space-y-3" id="def-col"></div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button onclick="initGame()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 px-6 rounded-full transition text-sm">
+                    <i class="fa-solid fa-rotate-right mr-2"></i> Reset Game
+                </button>
+            </div>
+            <label class="flex items-center gap-2 mt-4 text-slate-500 font-medium cursor-pointer w-max">
+                <input type="checkbox" class="section-check w-5 h-5 text-techTeal rounded focus:ring-techTeal" onchange="updateProgress()"> Mark as completed
+            </label>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center pt-10 pb-4 mt-8 border-t border-slate-200">
+            <p class="text-slate-500 font-bold text-sm md:text-base uppercase tracking-widest mb-2">
+                &copy; 2026 <strong class="text-techBlue">Lucero English System</strong> <br class="md:hidden"><span class="text-xs md:text-sm">(Hệ thống Anh Ngữ Lucero)</span>
+            </p>
+            <p class="text-slate-400 text-sm font-semibold uppercase tracking-wider">
+                Compiled and authored by <span class="text-techPurple font-bold">Mr. Lucero</span>
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Floating Progress Tracker -->
+    <div class="fixed bottom-6 right-6 bg-white p-4 rounded-2xl shadow-2xl border border-slate-200 z-50 flex items-center gap-4">
+        <div>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Lesson Progress</p>
+            <p class="text-xl font-extrabold text-techDark"><span id="progressText">0</span>/7</p>
+        </div>
+        <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-techTeal text-xl">
+            <i class="fa-solid fa-trophy"></i>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. Expand/Collapse Logic ---
+        function toggleElement(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('active')) {
+                el.classList.remove('active');
+            } else {
+                el.classList.add('active');
+            }
+        }
+
+        // --- 2. TTS Logic ---
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) {
+                alert("Text-to-speech is not supported in this browser.");
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- 3. Vocabulary Data & Generation ---
+        const vocabData = [
+            { word: "Gadget", def: "A small, useful machine or device.", ex: "My smartphone is my favorite gadget." },
+            { word: "Invent", def: "To create something new that didn't exist before.", ex: "I want to invent a flying car." },
+            { word: "Screen", def: "The flat part of a TV or phone where you see pictures.", ex: "Don't look at the screen in the dark." },
+            { word: "Battery", def: "The part that provides power to a device.", ex: "My phone battery is at 10%." },
+            { word: "Useful", def: "Helpful for doing something.", ex: "A map app is very useful for traveling." },
+            { word: "Automatic", def: "Working by itself without human control.", ex: "The automatic doors opened for me." },
+            { word: "Connect", def: "To link two things together (like Wi-Fi).", ex: "Please connect your laptop to the Wi-Fi." },
+            { word: "Portable", def: "Easy to carry or move around.", ex: "A laptop is a portable computer." }
+        ];
+
+        function renderVocab() {
+            const grid = document.getElementById('vocab-grid');
+            vocabData.forEach((v, index) => {
+                const cardHtml = `
+                    <div class="glass-card p-5 text-center flex flex-col h-full">
+                        <h3 class="text-xl font-bold text-techPurple mb-1">${v.word}</h3>
+                        <p class="text-sm text-slate-500 mb-3 flex-grow min-h-[40px] flex items-center justify-center">${v.def}</p>
+                        
+                        <div class="flex justify-center gap-2 mt-auto">
+                            <button class="bg-purple-50 text-techPurple text-xs font-bold py-1.5 px-3 rounded-lg hover:bg-purple-100 transition" onclick="toggleElement('voc-${index}')">
+                                Show Sentence
+                            </button>
+                            <button class="bg-blue-50 text-techBlue py-1.5 px-3 rounded-lg hover:bg-blue-100 transition" onclick="speakText('${v.word}')" title="Listen">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                        
+                        <div id="voc-${index}" class="expandable-content mt-3 bg-slate-50 p-2 rounded border border-slate-100 text-sm text-slate-700 italic">
+                            "${v.ex}"
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+        }
+
+        // --- 4. Main Speaking Questions Data & Generation ---
+        const speakingData = [
+            { level: "Easy", q: "Do you like technology and gadgets? Why or why not?", ideas: ["Yes, they are fun", "No, I prefer nature", "They help me learn", "They make life easy"], s_short: "Yes, I like technology because I can play games.", s_long: "I really like technology because it makes my life easier. For example, I use my tablet to do homework and call my friends." },
+            { level: "Easy", q: "How often do you use a smartphone or tablet?", ideas: ["Every day", "Only on weekends", "For 2 hours a day", "When I need to call mom"], s_short: "I use my smartphone every day after school.", s_long: "I usually use my tablet every day. I use it for about two hours to watch videos and play games with my brother." },
+            { level: "Easy", q: "What color and size is your dream phone?", ideas: ["Neon green", "Small and light", "Huge screen", "Gold color"], s_short: "My dream phone is blue and very small.", s_long: "My dream phone is dark black with a very large screen. It is thin and light so I can carry it easily in my pocket." },
+            
+            { level: "Medium", q: "What is the most useful invention in your home?", ideas: ["The refrigerator", "The internet/Wi-Fi", "The washing machine", "The TV"], s_short: "The most useful invention is the refrigerator because it keeps food cold.", s_long: "In my opinion, the most useful invention is Wi-Fi. Without Wi-Fi, I cannot do my homework online or watch movies." },
+            { level: "Medium", q: "How do robots help humans today?", ideas: ["They clean floors", "They build cars", "They explore space", "They help doctors"], s_short: "Robots help us by cleaning the house.", s_long: "Today, robots are very helpful in factories. They can build cars very fast. Also, we have small robots that vacuum our floors at home." },
+            { level: "Medium", q: "Imagine you have a flying backpack (jetpack). Where would you go?", ideas: ["To school", "To the top of a mountain", "To Paris", "Above the clouds"], s_short: "I would fly to the top of a tall mountain.", s_long: "If I had a flying backpack, I would fly to school every day. I would never be late, and I wouldn't have to wait in traffic." },
+            { level: "Medium", q: "If you could invent a new gadget, what would it do?", ideas: ["Do my homework", "Translate animal language", "Make food instantly", "Teleport me"], s_short: "I would invent a gadget that translates what my dog says.", s_long: "I want to invent an automatic homework machine. You just scan the paper, and it writes the correct answers in your handwriting!" },
+            
+            { level: "Opinion", q: "Do you think technology makes people lazy? Why?", ideas: ["Yes, we don't walk", "No, it saves time", "Yes, we use machines for everything", "We still exercise"], s_short: "Yes, I think it makes us lazy because we sit and look at screens all day.", s_long: "I totally agree that technology makes us lazy. For example, people use cars instead of walking, and we buy food online instead of cooking." },
+            { level: "Opinion", q: "Will robots take over all human jobs in the future?", ideas: ["No, humans are smarter", "Yes, robots are faster", "Only boring jobs", "We will work together"], s_short: "No, robots cannot do everything humans do.", s_long: "I'm not sure. I think robots will take over boring jobs in factories, but humans will always be needed for creative jobs like teachers and artists." },
+            { level: "Opinion", q: "Should children spend a lot of time on screens?", ideas: ["No, it's bad for eyes", "Yes, to learn", "Only a little bit", "They need to play outside"], s_short: "No, children should play outside more.", s_long: "In my opinion, children should not spend too much time on screens. It is bad for their eyes. They need to go outside and play sports to be healthy." }
+        ];
+
+        function renderSpeakingQs() {
+            const container = document.getElementById('speaking-questions-container');
+            speakingData.forEach((item, index) => {
+                let badgeColor = item.level === 'Easy' ? 'bg-green-100 text-green-700' : 
+                                 item.level === 'Medium' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700';
+                
+                let ideasHtml = item.ideas.map(idea => `<li class="flex items-start"><i class="fa-solid fa-angle-right text-techTeal mt-1 mr-2"></i> ${idea}</li>`).join('');
+
+                const html = `
+                    <div class="glass-card p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-xs font-bold px-2 py-1 rounded uppercase ${badgeColor}">${item.level}</span>
+                            <span class="text-slate-400 font-bold">Q${index + 1}</span>
+                        </div>
+                        <p class="text-lg font-bold text-slate-800 mb-4">${item.q}</p>
+                        
+                        <div class="flex flex-wrap gap-2">
+                            <button class="bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-semibold py-2 px-4 rounded-lg transition" onclick="toggleElement('ideas-${index}')">
+                                <i class="fa-solid fa-lightbulb text-yellow-500 mr-2"></i> Idea Bank
+                            </button>
+                            <button class="bg-slate-100 text-slate-600 hover:bg-slate-200 text-sm font-semibold py-2 px-4 rounded-lg transition" onclick="toggleElement('ans-${index}')">
+                                <i class="fa-solid fa-comment-dots text-techBlue mr-2"></i> Sample Answers
+                            </button>
+                        </div>
+
+                        <!-- Expandable Idea Bank -->
+                        <div id="ideas-${index}" class="expandable-content mt-4 bg-teal-50 p-4 rounded-xl border border-teal-100">
+                            <p class="font-bold text-teal-800 mb-2">Use these ideas:</p>
+                            <ul class="text-slate-700 text-sm space-y-1">${ideasHtml}</ul>
+                        </div>
+
+                        <!-- Expandable Sample Answers -->
+                        <div id="ans-${index}" class="expandable-content mt-4 bg-blue-50 p-4 rounded-xl border border-blue-100 space-y-3">
+                            <div>
+                                <p class="font-bold text-blue-800 text-sm uppercase">Short Answer (A1-A2)</p>
+                                <p class="text-slate-700 italic">"${item.s_short}"</p>
+                            </div>
+                            <hr class="border-blue-200">
+                            <div>
+                                <p class="font-bold text-purple-800 text-sm uppercase">Extended Answer (B1)</p>
+                                <p class="text-slate-700 italic">"${item.s_long}"</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        // --- 5. Review Game Logic ---
+        const gameData = [
+            { id: 1, word: "Invent", def: "To create something new." },
+            { id: 2, word: "Battery", def: "Provides power to a device." },
+            { id: 3, word: "Portable", def: "Easy to carry around." },
+            { id: 4, word: "Screen", def: "The flat part where you see pictures." }
+        ];
+
+        let selectedWord = null;
+        let selectedDef = null;
+
+        function initGame() {
+            const wordCol = document.getElementById('word-col');
+            const defCol = document.getElementById('def-col');
+            wordCol.innerHTML = '';
+            defCol.innerHTML = '';
+            selectedWord = null;
+            selectedDef = null;
+
+            // Shuffle arrays
+            let words = [...gameData].sort(() => Math.random() - 0.5);
+            let defs = [...gameData].sort(() => Math.random() - 0.5);
+
+            words.forEach(item => {
+                let btn = document.createElement('button');
+                btn.className = 'game-btn w-full bg-white border-2 border-slate-200 text-slate-700 font-bold py-4 px-4 rounded-xl shadow-sm text-left';
+                btn.innerText = item.word;
+                btn.onclick = () => selectItem('word', item.id, btn);
+                wordCol.appendChild(btn);
+            });
+
+            defs.forEach(item => {
+                let btn = document.createElement('button');
+                btn.className = 'game-btn w-full bg-white border-2 border-slate-200 text-slate-700 font-medium py-4 px-4 rounded-xl shadow-sm text-left text-sm';
+                btn.innerText = item.def;
+                btn.onclick = () => selectItem('def', item.id, btn);
+                defCol.appendChild(btn);
+            });
+        }
+
+        function selectItem(type, id, btn) {
+            if (btn.classList.contains('matched')) return;
+
+            // Clear previous selection of same type
+            let siblings = btn.parentElement.children;
+            for(let el of siblings) {
+                if(!el.classList.contains('matched')) {
+                    el.classList.remove('selected', 'error');
+                }
+            }
+
+            btn.classList.add('selected');
+
+            if (type === 'word') {
+                selectedWord = { id, btn };
+            } else {
+                selectedDef = { id, btn };
+            }
+
+            checkMatch();
+        }
+
+        function checkMatch() {
+            if (selectedWord && selectedDef) {
+                if (selectedWord.id === selectedDef.id) {
+                    // Match
+                    selectedWord.btn.classList.replace('selected', 'matched');
+                    selectedDef.btn.classList.replace('selected', 'matched');
+                    selectedWord = null;
+                    selectedDef = null;
+                } else {
+                    // Mismatch
+                    let wBtn = selectedWord.btn;
+                    let dBtn = selectedDef.btn;
+                    wBtn.classList.replace('selected', 'error');
+                    dBtn.classList.replace('selected', 'error');
+                    
+                    setTimeout(() => {
+                        wBtn.classList.remove('error');
+                        dBtn.classList.remove('error');
+                    }, 500);
+
+                    selectedWord = null;
+                    selectedDef = null;
+                }
+            }
+        }
+
+        // --- 6. Reflection Emojis ---
+        function selectEmoji(btn) {
+            let siblings = btn.parentElement.children;
+            for(let el of siblings) {
+                el.classList.add('grayscale');
+                el.classList.remove('grayscale-0', 'scale-125');
+            }
+            btn.classList.remove('grayscale');
+            btn.classList.add('grayscale-0', 'scale-125');
+        }
+
+        // --- 7. Progress Tracker Logic ---
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.section-check');
+            const total = checkboxes.length;
+            let checked = 0;
+            checkboxes.forEach(cb => {
+                if(cb.checked) checked++;
+            });
+
+            document.getElementById('progressText').innerText = checked;
+            
+            const percentage = (checked / total) * 100;
+            document.getElementById('lessonProgress').style.width = percentage + '%';
+
+            if (checked === total) {
+                setTimeout(() => alert("🎉 Congratulations! You completed all sections of the lesson!"), 200);
+            }
+        }
+
+        // Initialize dynamic content on load
+        window.onload = () => {
+            renderVocab();
+            renderSpeakingQs();
+            initGame();
+        };
+
+    </script>
+</body>
+</html>
