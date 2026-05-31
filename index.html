@@ -3,485 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speaking Lesson: Hobbies & Tech Gadgets | Lucero English System</title>
+    <title>Teens ESL Speaking: Hobbies & Free Time</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0fdf4; /* Soft green background */
-            color: #1f2937;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+            color: #1e293b;
+            scroll-behavior: smooth;
         }
-        
-        /* Smooth transitions */
-        .transition-all { transition: all 0.3s ease; }
-        
-        /* Flashcard styles - Optimized to prevent overflow */
-        .flashcard {
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 3D Flip Card Styles */
+        .perspective-1000 {
             perspective: 1000px;
-            cursor: pointer;
-            width: 100%;
         }
-        .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
+        .transform-style-3d {
             transform-style: preserve-3d;
         }
-        .flashcard.flipped .flashcard-inner {
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
             transform: rotateY(180deg);
         }
-        .flashcard-front, .flashcard-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 1rem;
-            padding: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+        .card-flip-transition {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
         }
-        .flashcard-front { background-color: #ffffff; border: 2px solid #e5e7eb; }
-        .flashcard-back { background-color: #dbeafe; transform: rotateY(180deg); border: 2px solid #bfdbfe; }
 
-        /* Game styles */
-        .game-btn { word-wrap: break-word; overflow-wrap: break-word; white-space: normal; height: 100%; }
-        .game-btn.selected { transform: scale(1.03); box-shadow: 0 0 0 4px #60a5fa; }
-        .game-btn.matched { background-color: #86efac; color: #14532d; border-color: #4ade80; opacity: 0.7; pointer-events: none; }
-        .game-btn.wrong { animation: shake 0.5s; background-color: #fca5a5; color: #7f1d1d; }
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
 
+        /* Match Game Styles */
+        .match-btn.selected {
+            background-color: #8b5cf6; /* purple-500 */
+            color: white;
+            border-color: #8b5cf6;
+            transform: scale(0.98);
+        }
+        .match-btn.matched {
+            background-color: #10b981; /* emerald-500 */
+            color: white;
+            border-color: #10b981;
+            pointer-events: none;
+            opacity: 0.8;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        .match-btn.error {
+            background-color: #ef4444; /* red-500 */
+            color: white;
+            border-color: #ef4444;
+            animation: shake 0.4s;
+        }
         @keyframes shake {
-            0% { transform: translateX(0); }
+            0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
+            75% { transform: translateX(5px); }
         }
-
-        /* Hide scrollbar for clean look */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="antialiased pb-20 text-lg">
+<body class="relative flex flex-col min-h-screen">
 
-    <!-- Sticky Progress Bar -->
-    <div class="fixed top-0 left-0 w-full bg-white shadow-md z-50 px-4 py-3 flex items-center justify-between">
-        <div class="font-bold text-lg md:text-xl text-green-600 flex items-center gap-2">
-            🚀 <span class="hidden sm:inline">Lesson Progress</span>
-        </div>
-        <div class="flex-1 max-w-2xl mx-4 bg-gray-200 rounded-full h-5 relative">
-            <div id="progress-bar" class="bg-green-500 h-5 rounded-full transition-all duration-500 shadow-inner" style="width: 0%;"></div>
-        </div>
-        <div class="font-bold text-xl text-gray-600"><span id="progress-text">0</span>/7</div>
-    </div>
-
-    <!-- Main Container -->
-    <div class="max-w-5xl mx-auto px-4 pt-24 space-y-12">
-
-        <!-- Header -->
-        <header class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white rounded-3xl p-8 md:p-12 shadow-xl text-center relative overflow-hidden">
-            <!-- Branding Badge -->
-            <div class="absolute top-4 left-4 bg-white/20 backdrop-blur-md border border-white/30 text-white px-4 py-2 rounded-full text-sm md:text-base font-bold flex items-center gap-2 shadow-sm z-20">
-                ⭐ Lucero English System
-            </div>
-
-            <div class="relative z-10 mt-8 md:mt-4">
-                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-md">🎮 Hobbies & Tech 📱</h1>
-                <p class="text-xl md:text-2xl opacity-95 mb-8 font-medium">Let's talk about what we love doing in our free time!</p>
-                
-                <div class="bg-white/20 backdrop-blur-md rounded-2xl p-6 md:p-8 text-left inline-block max-w-3xl w-full border border-white/30 shadow-lg">
-                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-white drop-shadow-sm">🎯 Today's Goals:</h3>
-                    <ul class="space-y-3 text-lg md:text-xl font-medium">
-                        <li class="flex items-start gap-3">
-                            <span class="text-2xl">✅</span> 
-                            <span>Talk about hobbies and how often you do them.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="text-2xl">✅</span> 
-                            <span>Describe favorite tech gadgets and why you use them.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="text-2xl">✅</span> 
-                            <span>Express simple opinions about screen time.</span>
-                        </li>
-                    </ul>
+    <header class="glass-header sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-3 rounded-xl shadow-lg transform transition hover:scale-105">
+                    <i class="fa-solid fa-gamepad text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">Hobbies & Free Time</h1>
+                    <div class="flex gap-2 text-sm font-bold mt-1">
+                        <span class="bg-purple-100 text-purple-800 px-3 py-0.5 rounded-lg border border-purple-200">Teens</span>
+                        <span class="bg-indigo-100 text-indigo-800 px-3 py-0.5 rounded-lg border border-indigo-200">A1 - B1</span>
+                        <span class="bg-slate-100 text-slate-700 px-3 py-0.5 rounded-lg border border-slate-200"><i class="fa-regular fa-clock mr-1"></i>60 mins</span>
+                    </div>
                 </div>
             </div>
-            <!-- Decorative circles -->
-            <div class="absolute -top-10 -right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-        </header>
-
-        <!-- SECTION 1: WARM-UP -->
-        <section class="bg-white rounded-3xl p-6 md:p-10 shadow-lg section-container border-t-4 border-indigo-500" id="sec-1">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-indigo-600">1️⃣ Warm-up</h2>
-                <span class="text-4xl md:text-5xl">🔥</span>
-            </div>
-            <p class="text-gray-600 mb-8 text-xl">Let's get talking! Answer these questions with your teacher or partner.</p>
             
-            <div class="space-y-5">
-                <!-- Question Cards -->
-                <div class="border-2 border-indigo-100 rounded-2xl p-5 hover:border-indigo-400 transition-all bg-indigo-50/30">
-                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-4 leading-relaxed">Q1: What is your favorite thing to do on a Saturday? 🛋️</p>
-                    <button onclick="toggleElement('ans-w1')" class="bg-indigo-100 text-indigo-700 px-5 py-2.5 rounded-xl font-bold text-lg hover:bg-indigo-200 transition-all shadow-sm">👀 Show Example</button>
-                    <div id="ans-w1" class="hidden mt-4 p-4 bg-indigo-50 rounded-xl text-gray-800 italic border-l-4 border-indigo-500 text-lg md:text-xl break-words">
-                        "On Saturdays, I love sleeping in and then playing football in the park with my friends."
+            <div class="hidden md:flex flex-col items-end w-64">
+                <span class="text-base font-bold text-slate-600 mb-1" id="progress-text">Lesson Progress: 0%</span>
+                <div class="w-full bg-slate-200 rounded-full h-4 shadow-inner">
+                    <div class="bg-gradient-to-r from-purple-500 to-indigo-500 h-4 rounded-full transition-all duration-500 shadow-sm" style="width: 0%" id="progress-bar"></div>
+                </div>
+            </div>
+            
+            <button class="md:hidden text-slate-600 p-2 hover:bg-slate-100 rounded-lg transition" onclick="document.getElementById('quick-nav').classList.toggle('hidden')">
+                <i class="fa-solid fa-bars text-3xl"></i>
+            </button>
+        </div>
+        
+        <div id="quick-nav" class="hidden md:block border-t border-slate-200 bg-white/80">
+            <div class="max-w-6xl mx-auto px-4 flex gap-6 overflow-x-auto py-4 custom-scrollbar text-base font-black text-slate-600 uppercase tracking-wide">
+                <a href="#objectives" class="hover:text-purple-600 transition whitespace-nowrap">Objectives</a>
+                <a href="#warmup" class="hover:text-purple-600 transition whitespace-nowrap">1. Warm-up</a>
+                <a href="#vocabulary" class="hover:text-purple-600 transition whitespace-nowrap">2. Vocabulary</a>
+                <a href="#speaking" class="hover:text-purple-600 transition whitespace-nowrap">3. Speaking</a>
+                <a href="#roleplay" class="hover:text-purple-600 transition whitespace-nowrap">4. Role-play</a>
+                <a href="#fluency" class="hover:text-purple-600 transition whitespace-nowrap">5. Fluency</a>
+                <a href="#review" class="hover:text-purple-600 transition whitespace-nowrap">6. Review</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-16 flex-grow w-full">
+        
+        <section id="objectives" class="bg-white rounded-[2rem] p-8 md:p-12 shadow-lg border border-slate-200 flex flex-col md:flex-row gap-10 items-center">
+            <div class="w-full md:w-1/3 text-center md:text-left">
+                <h2 class="text-5xl font-black text-slate-800 mb-4">Lesson Goals</h2>
+                <p class="text-xl text-slate-500 mb-8 font-semibold">By the end of this lesson, you will be able to:</p>
+                <button onclick="checkTask('obj-check'); this.classList.add('bg-green-500', 'text-white'); this.classList.remove('bg-purple-100', 'text-purple-700'); this.innerHTML='<i class=\'fa-solid fa-check mr-2\'></i> Started!'" class="bg-purple-100 text-purple-700 hover:bg-purple-200 border border-purple-300 font-black text-2xl py-4 px-8 rounded-2xl transition w-full shadow-sm">
+                    <i class="fa-solid fa-rocket mr-2"></i> Start Lesson
+                </button>
+                <input type="checkbox" id="obj-check" class="hidden">
+            </div>
+            <div class="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 p-6 rounded-3xl border-2 border-slate-100 relative overflow-hidden group hover:border-purple-300 transition">
+                    <div class="absolute -right-4 -bottom-4 text-purple-100 group-hover:text-purple-200 transition"><i class="fa-solid fa-comments text-8xl"></i></div>
+                    <div class="relative z-10">
+                        <span class="bg-purple-500 text-white w-14 h-14 rounded-full flex items-center justify-center font-black text-3xl shadow-md mb-6">1</span>
+                        <p class="font-black text-slate-700 text-2xl leading-snug">Talk about hobbies and free time.</p>
                     </div>
                 </div>
-
-                <div class="border-2 border-indigo-100 rounded-2xl p-5 hover:border-indigo-400 transition-all bg-indigo-50/30">
-                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-4 leading-relaxed">Q2: Do you prefer playing outside or staying inside? 🌳/🏠</p>
-                    <button onclick="toggleElement('ans-w2')" class="bg-indigo-100 text-indigo-700 px-5 py-2.5 rounded-xl font-bold text-lg hover:bg-indigo-200 transition-all shadow-sm">👀 Show Example</button>
-                    <div id="ans-w2" class="hidden mt-4 p-4 bg-indigo-50 rounded-xl text-gray-800 italic border-l-4 border-indigo-500 text-lg md:text-xl break-words">
-                        "I prefer staying inside because I love playing video games and reading comics."
+                <div class="bg-slate-50 p-6 rounded-3xl border-2 border-slate-100 relative overflow-hidden group hover:border-indigo-300 transition">
+                    <div class="absolute -right-4 -bottom-4 text-indigo-100 group-hover:text-indigo-200 transition"><i class="fa-solid fa-heart text-8xl"></i></div>
+                    <div class="relative z-10">
+                        <span class="bg-indigo-500 text-white w-14 h-14 rounded-full flex items-center justify-center font-black text-3xl shadow-md mb-6">2</span>
+                        <p class="font-black text-slate-700 text-2xl leading-snug">Express your likes and dislikes clearly.</p>
                     </div>
                 </div>
-
-                <div class="border-2 border-indigo-100 rounded-2xl p-5 hover:border-indigo-400 transition-all bg-indigo-50/30">
-                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-4 leading-relaxed">Q3: How many screens do you have in your bedroom? 💻</p>
-                    <button onclick="toggleElement('ans-w3')" class="bg-indigo-100 text-indigo-700 px-5 py-2.5 rounded-xl font-bold text-lg hover:bg-indigo-200 transition-all shadow-sm">👀 Show Example</button>
-                    <div id="ans-w3" class="hidden mt-4 p-4 bg-indigo-50 rounded-xl text-gray-800 italic border-l-4 border-indigo-500 text-lg md:text-xl break-words">
-                        "I have two screens: my smartphone and my laptop for doing my homework."
-                    </div>
-                </div>
-
-                <div class="border-2 border-indigo-100 rounded-2xl p-5 hover:border-indigo-400 transition-all bg-indigo-50/30">
-                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-4 leading-relaxed">Q4: What is the most popular hobby in your country? ⚽</p>
-                    <button onclick="toggleElement('ans-w4')" class="bg-indigo-100 text-indigo-700 px-5 py-2.5 rounded-xl font-bold text-lg hover:bg-indigo-200 transition-all shadow-sm">👀 Show Example</button>
-                    <div id="ans-w4" class="hidden mt-4 p-4 bg-indigo-50 rounded-xl text-gray-800 italic border-l-4 border-indigo-500 text-lg md:text-xl break-words">
-                        "In my country, playing soccer and going to cafes are very popular hobbies."
-                    </div>
-                </div>
-
-                <div class="border-2 border-indigo-100 rounded-2xl p-5 hover:border-indigo-400 transition-all bg-indigo-50/30">
-                    <p class="text-xl md:text-2xl font-bold text-gray-800 mb-4 leading-relaxed">Q5: If you could invent a new gadget, what would it do? 🤖</p>
-                    <button onclick="toggleElement('ans-w5')" class="bg-indigo-100 text-indigo-700 px-5 py-2.5 rounded-xl font-bold text-lg hover:bg-indigo-200 transition-all shadow-sm">👀 Show Example</button>
-                    <div id="ans-w5" class="hidden mt-4 p-4 bg-indigo-50 rounded-xl text-gray-800 italic border-l-4 border-indigo-500 text-lg md:text-xl break-words">
-                        "I would invent a robot that does my homework and cleans my room perfectly in 5 minutes!"
+                <div class="bg-slate-50 p-6 rounded-3xl border-2 border-slate-100 relative overflow-hidden group hover:border-purple-300 transition">
+                    <div class="absolute -right-4 -bottom-4 text-purple-100 group-hover:text-purple-200 transition"><i class="fa-solid fa-question text-8xl"></i></div>
+                    <div class="relative z-10">
+                        <span class="bg-purple-500 text-white w-14 h-14 rounded-full flex items-center justify-center font-black text-3xl shadow-md mb-6">3</span>
+                        <p class="font-black text-slate-700 text-2xl leading-snug">Explain <i class="text-purple-600 underline decoration-purple-300">why</i> you like or don't like certain activities.</p>
                     </div>
                 </div>
             </div>
-            <button class="mt-8 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl text-xl transition-all shadow-lg active:transform active:scale-95" onclick="markComplete(1, this)">✅ Mark Section Complete</button>
         </section>
 
-        <!-- SECTION 2: VOCABULARY -->
-        <section class="bg-white rounded-3xl p-6 md:p-10 shadow-lg section-container border-t-4 border-purple-500" id="sec-2">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-purple-600">2️⃣ Key Vocabulary</h2>
-                <span class="text-4xl md:text-5xl">📚</span>
+        <section id="warmup" class="relative">
+            <div class="flex items-center gap-5 mb-10">
+                <div class="bg-orange-100 text-orange-600 w-16 h-16 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-orange-200"><i class="fa-solid fa-mug-hot"></i></div>
+                <div>
+                    <h2 class="text-4xl font-black text-slate-800">1. Partner Warm-up</h2>
+                    <p class="text-slate-500 font-bold text-xl">Discuss these questions with your partner. Click for ideas!</p>
+                </div>
             </div>
-            <p class="text-gray-600 mb-8 text-xl">Click the words to reveal the definition and an example sentence!</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <!-- Vocab Items via JS -->
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <script>
-                    const vocabItems = [
-                        { word: "Gadget", def: "A small electronic device or tool.", ex: "My new smartphone is my favorite gadget." },
-                        { word: "Screen time", def: "The time you spend looking at phones, TVs, or computers.", ex: "My parents limit my screen time to 2 hours a day." },
-                        { word: "To download", def: "To get files or games from the internet onto your device.", ex: "I need to download the new update for my game." },
-                        { word: "Social media", def: "Apps and websites where people share photos and messages.", ex: "She loves posting photos on social media." },
-                        { word: "Creative", def: "Good at making new things or thinking of new ideas.", ex: "Drawing and painting are very creative hobbies." },
-                        { word: "To relax", def: "To rest and feel calm after working or studying.", ex: "Listening to music helps me relax after school." },
-                        { word: "Multiplayer", def: "A game where many people can play together at the same time.", ex: "We play a multiplayer racing game online." },
-                        { word: "Outdoor activity", def: "Things you do outside, like sports or hiking.", ex: "Cycling in the park is a great outdoor activity." },
-                        { word: "Addictive", def: "Hard to stop doing or playing.", ex: "This mobile game is very addictive; I play it for hours." },
-                        { word: "To chat", def: "To talk with someone in a friendly way (often online).", ex: "I chat with my best friend every evening on Zalo." }
+                    const warmupQs = [
+                        { q: "What is your favorite hobby?", emoji: "🎮", hint: "I love playing video games with my friends." },
+                        { q: "Do you prefer indoor or outdoor activities?", emoji: "⚽", hint: "I prefer outdoor activities because I like running." },
+                        { q: "How much free time do you have every day?", emoji: "⏰", hint: "I usually have about two hours of free time after doing my homework." },
+                        { q: "Who do you spend your free time with?", emoji: "👯", hint: "I usually spend my free time with my best friend." },
+                        { q: "What is a new hobby you want to try?", emoji: "🎸", hint: "I really want to try playing the guitar." }
                     ];
-
-                    vocabItems.forEach((item, index) => {
+                    
+                    warmupQs.forEach((item, index) => {
                         document.write(`
-                            <div class="border-2 border-purple-100 rounded-2xl p-5 cursor-pointer hover:bg-purple-50 hover:border-purple-300 transition-all shadow-sm bg-white" onclick="toggleElement('vocab-${index}')">
-                                <div class="flex justify-between items-center">
-                                    <h3 class="text-xl md:text-2xl font-bold text-purple-800">${item.word}</h3>
-                                    <span class="text-purple-500 text-2xl">🔽</span>
-                                </div>
-                                <div id="vocab-${index}" class="hidden mt-5 space-y-3">
-                                    <p class="text-gray-800 bg-purple-50 p-3 rounded-xl border border-purple-100 text-lg break-words"><strong class="text-purple-700">Meaning:</strong> ${item.def}</p>
-                                    <p class="text-gray-800 bg-white p-3 rounded-xl border border-gray-200 text-lg break-words"><strong class="text-purple-700">Example:</strong> <em>"${item.ex}"</em></p>
+                            <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl transition-shadow flex flex-col">
+                                <div class="text-6xl mb-6">${item.emoji}</div>
+                                <h3 class="font-black text-3xl text-slate-800 mb-8 leading-snug">${item.q}</h3>
+                                <div class="mt-auto">
+                                    <button onclick="toggleElement('warmup-hint-${index}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 px-5 rounded-xl text-lg font-black flex items-center justify-center w-full transition border border-slate-200 shadow-sm">
+                                        <i class="fa-regular fa-lightbulb mr-2 text-yellow-500"></i> Show Example Idea
+                                    </button>
+                                    <div id="warmup-hint-${index}" class="hidden mt-4 p-5 bg-blue-50 rounded-xl text-xl text-slate-700 font-bold border border-blue-100 fade-in shadow-inner">
+                                        "${item.hint}"
+                                    </div>
                                 </div>
                             </div>
                         `);
                     });
                 </script>
             </div>
-            <button class="mt-8 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl text-xl transition-all shadow-lg active:transform active:scale-95" onclick="markComplete(2, this)">✅ Mark Section Complete</button>
+            <div class="mt-10 flex justify-end">
+                <label class="flex items-center gap-4 cursor-pointer bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition">
+                    <input type="checkbox" onchange="checkTask('warmup-check')" class="w-8 h-8 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer">
+                    <span class="font-black text-slate-700 text-2xl">I completed the warm-up</span>
+                </label>
+            </div>
         </section>
 
-        <!-- SECTION 3, 4, 5: MAIN SPEAKING / IDEA BANK / SAMPLE ANSWERS -->
-        <section class="bg-white rounded-3xl p-6 md:p-10 shadow-lg section-container border-t-4 border-pink-500" id="sec-3">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-pink-600">3️⃣ Speaking Practice</h2>
-                <span class="text-4xl md:text-5xl">🗣️</span>
+        <section id="vocabulary" class="relative">
+            <div class="flex items-center gap-5 mb-10">
+                <div class="bg-indigo-100 text-indigo-600 w-16 h-16 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-indigo-200"><i class="fa-solid fa-book-open"></i></div>
+                <div>
+                    <h2 class="text-4xl font-black text-slate-800">2. Key Vocabulary</h2>
+                    <p class="text-slate-500 font-bold text-xl">Click the cards to reveal definitions and examples.</p>
+                </div>
             </div>
-            <p class="text-gray-600 mb-8 text-xl">Read the questions. Use the <b>Idea Bank</b> to help you think, and check the <b>Sample Answers</b> if you get stuck!</p>
 
-            <div class="space-y-6" id="speaking-questions-container">
-                <!-- Dynamically populated via JS -->
-            </div>
-            
-            <script>
-                const questions = [
-                    { q: "What is your favorite hobby and why?", diff: "Easy 🟢", ideas: ["Drawing", "Playing Guitar", "Fun", "Relaxing"], short: "My favorite hobby is reading because it is very relaxing.", long: "My favorite hobby is reading fantasy books. I enjoy it because it helps me relax after a long day at school. It also improves my imagination." },
-                    { q: "What tech device do you use the most every day?", diff: "Easy 🟢", ideas: ["Smartphone", "Laptop", "Chatting", "Homework"], short: "I use my smartphone the most to chat with my friends.", long: "The device I use the most is definitely my smartphone. I use it for everything: talking to friends, watching funny videos, and playing games." },
-                    { q: "Do you like playing video games? Which ones?", diff: "Easy 🟢", ideas: ["Action", "Puzzle", "Roblox", "Minecraft"], short: "Yes, I love playing Minecraft with my younger brother.", long: "Yes, I am a big fan of video games. My favorite game right now is Roblox because I can build my own worlds and play with my friends online." },
-                    { q: "How much time do you spend on your phone every day?", diff: "Medium 🟡", ideas: ["2 hours", "Too much time", "Weekends", "Rules"], short: "I spend about 3 hours a day on my phone.", long: "To be honest, I spend around 3 or 4 hours on my phone every day. My parents try to limit my screen time, but it's hard because I use it for homework and chatting." },
-                    { q: "What is a new hobby you want to try in the future?", diff: "Medium 🟡", ideas: ["Coding", "Skateboarding", "Photography", "Cooking"], short: "I want to try skateboarding because it looks very cool.", long: "In the future, I really want to learn how to code. I think creating my own apps or simple games would be amazing, and it is a very useful skill." },
-                    { q: "Why is it important for teenagers to have hobbies?", diff: "Medium 🟡", ideas: ["Reduce stress", "Learn skills", "Make friends", "Fun"], short: "Hobbies are important to help us relax and have fun.", long: "I think it is very important to have hobbies because studying can be stressful. Hobbies give us a break, help us learn new things, and let us meet new friends." },
-                    { q: "How do you stay in touch with your friends after school?", diff: "Medium 🟡", ideas: ["Texting", "Voice calls", "Gaming together", "Social Media"], short: "I text them on Facebook Messenger and Instagram.", long: "After school, I usually text my friends on Messenger or Zalo. Sometimes, if we are playing the same online game, we use voice chat so we can talk while we play." },
-                    { q: "Opinion: Do you think kids spend too much time on screens?", diff: "Hard 🔴", ideas: ["Yes, definitely", "Bad for eyes", "No, it's normal now", "Balance is key"], short: "Yes, I think kids look at screens too much nowadays.", long: "Yes, I believe kids spend way too much time on screens. While technology is great, looking at a phone all day is bad for our eyes and stops us from playing outside." },
-                    { q: "Opinion: Is it better to read a real paper book or an e-book?", diff: "Hard 🔴", ideas: ["Paper smells good", "E-books are light", "Better for eyes", "Cheaper"], short: "I prefer paper books because they don't hurt my eyes.", long: "In my opinion, real paper books are much better. I love the feeling of turning the pages. Also, looking at an e-book screen before bed makes it harder for me to sleep." },
-                    { q: "Opinion: Do you think social media is good or bad for teenagers?", diff: "Hard 🔴", ideas: ["Good for connecting", "Bad for mental health", "Cyberbullying", "Funny videos"], short: "I think it's both. It's good for chatting but can be stressful.", long: "I think social media has both good and bad sides. It is excellent for staying connected with friends and sharing photos. However, it can also cause stress because people compare themselves to others." }
-                ];
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <script>
+                    const vocab = [
+                        { word: "Hobby", def: "An activity done regularly in your free time for fun.", ex: "My favorite hobby is reading comic books." },
+                        { word: "Free time", def: "Time when you are not working or studying.", ex: "In my free time, I usually listen to music." },
+                        { word: "Indoors", def: "Inside a building or house.", ex: "I prefer playing games indoors when it is raining." },
+                        { word: "Outdoors", def: "Outside, in the open air.", ex: "Football is an outdoor sport." },
+                        { word: "Creative", def: "Using imagination to make new things.", ex: "Drawing and painting are very creative hobbies." },
+                        { word: "Active", def: "Moving around and using physical energy.", ex: "Swimming keeps me very active and healthy." },
+                        { word: "Relaxing", def: "Helping you to rest and feel less stressed.", ex: "Watching movies is very relaxing after a long day." },
+                        { word: "Skill", def: "The ability to do something well.", ex: "Playing the piano is a great skill to learn." }
+                    ];
 
-                const container = document.getElementById('speaking-questions-container');
-                
-                questions.forEach((item, index) => {
-                    let ideaBadges = item.ideas.map(idea => `<span class="bg-yellow-100 text-yellow-800 text-base font-bold px-3 py-1.5 rounded-full border border-yellow-300 shadow-sm">${idea}</span>`).join('');
-                    
-                    container.innerHTML += `
-                        <div class="border-2 border-pink-100 rounded-2xl overflow-hidden shadow-sm bg-white transition-all hover:border-pink-300">
-                            <div class="bg-pink-50/50 p-5 md:p-6 cursor-pointer flex justify-between items-center hover:bg-pink-100 transition-all" onclick="toggleElement('sq-${index}')">
-                                <div class="pr-4">
-                                    <span class="text-sm md:text-base font-bold text-gray-500 uppercase tracking-wider mb-2 block">${item.diff} • Question ${index + 1}</span>
-                                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 leading-snug break-words">${item.q}</h3>
-                                </div>
-                                <span class="text-3xl text-pink-500 flex-shrink-0">➕</span>
-                            </div>
-                            
-                            <div id="sq-${index}" class="hidden p-6 md:p-8 bg-white border-t border-pink-100 space-y-8">
-                                <!-- Section 4: Idea Bank -->
-                                <div>
-                                    <h4 class="text-base md:text-lg font-bold text-gray-500 uppercase mb-3 flex items-center gap-2">💡 Idea Bank</h4>
-                                    <div class="flex flex-wrap gap-2 md:gap-3">
-                                        ${ideaBadges}
+                    vocab.forEach((v, idx) => {
+                        document.write(`
+                            <div class="perspective-1000 h-72 w-full cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+                                <div class="card-inner relative w-full h-full card-flip-transition transform-style-3d shadow-sm group-hover:shadow-xl rounded-3xl">
+                                    <!-- Front -->
+                                    <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-3xl flex flex-col items-center justify-center p-6 transition-colors group-hover:border-indigo-300">
+                                        <h3 class="text-3xl font-black text-slate-800 text-center mb-4">${v.word}</h3>
+                                        <span class="text-base font-bold text-indigo-600 bg-indigo-100 px-4 py-1.5 rounded-full"><i class="fa-solid fa-hand-pointer mr-2"></i>Tap to flip</span>
+                                    </div>
+                                    <!-- Back -->
+                                    <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-indigo-50 border-2 border-indigo-200 rounded-3xl flex flex-col justify-center p-6 text-center overflow-y-auto custom-scrollbar">
+                                        <p class="text-xl font-bold text-indigo-900 mb-4 leading-snug">${v.def}</p>
+                                        <div class="bg-white/90 p-4 rounded-xl border border-indigo-100 shadow-sm mt-auto">
+                                            <p class="text-lg text-slate-700 italic font-medium">"${v.ex}"</p>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+            <div class="mt-10 flex justify-end">
+                <label class="flex items-center gap-4 cursor-pointer bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition">
+                    <input type="checkbox" onchange="checkTask('vocab-check')" class="w-8 h-8 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer">
+                    <span class="font-black text-slate-700 text-2xl">I learned the vocabulary</span>
+                </label>
+            </div>
+        </section>
+
+        <section id="speaking" class="relative">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+                <div class="flex items-center gap-5">
+                    <div class="bg-emerald-100 text-emerald-600 w-16 h-16 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-emerald-200"><i class="fa-solid fa-microphone-lines"></i></div>
+                    <div>
+                        <h2 class="text-4xl font-black text-slate-800">3. Speaking Practice</h2>
+                        <p class="text-slate-500 font-bold text-xl">Discuss with your partner. Expand the questions for ideas.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3 text-base font-bold flex-wrap">
+                    <span class="px-4 py-2 rounded-xl bg-green-100 text-green-800 border border-green-200">Q1-3: Easy</span>
+                    <span class="px-4 py-2 rounded-xl bg-yellow-100 text-yellow-800 border border-yellow-200">Q4-7: Medium</span>
+                    <span class="px-4 py-2 rounded-xl bg-purple-100 text-purple-800 border border-purple-200">Q8-10: Opinion</span>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <script>
+                    const speakingData = [
+                        { level: "easy", q: "What is your favorite hobby?", ideas: ["Playing video games", "Reading comics or manga", "Playing football", "Drawing pictures"], short: "My favorite hobby is playing video games with my friends.", long: "My favorite hobby is definitely playing video games. I play online with my school friends every weekend. We usually play Minecraft or Roblox because we can build things together. It's really fun!" },
+                        { level: "easy", q: "When do you usually have free time?", ideas: ["After school", "On weekends", "During summer holidays", "Before going to bed"], short: "I usually have free time on Saturday and Sunday.", long: "I am very busy during the week because of school and homework. So, I mostly have free time on weekends. On Saturday afternoon, I finally have time to relax, watch YouTube, or go to the park." },
+                        { level: "easy", q: "Who do you like to spend your free time with?", ideas: ["My best friend", "My brothers or sisters", "My parents", "By myself"], short: "I like spending my free time with my best friend, Alex.", long: "I prefer to spend my free time with my best friend. We live on the same street, so we often hang out together. Sometimes we go skateboarding, and sometimes we just chat and eat snacks." },
+                        { level: "medium", q: "What is a hobby you would like to try in the future?", ideas: ["Learning to play the guitar", "Coding and Programming", "Photography", "Cooking new foods"], short: "I would really like to try coding to make my own games.", long: "In the future, I really want to learn how to play the electric guitar. I love listening to rock music, and I think playing the guitar looks very cool. Maybe I can join a band when I am older!" },
+                        { level: "medium", q: "Do you prefer doing things indoors or outdoors? Why?", ideas: ["Indoors (comfortable, games)", "Outdoors (fresh air, sports)"], short: "I prefer indoors because I like playing computer games and reading.", long: "I definitely prefer doing things outdoors. I love sports like basketball and cycling, so I need space to run around. Also, the weather in my city is usually sunny and nice, so I don't like staying inside all day." },
+                        { level: "medium", q: "Are hobbies important for teenagers? Why?", ideas: ["To relax after studying", "To learn new skills", "To make new friends", "To stay healthy"], short: "Yes, because we need to relax after doing a lot of homework.", long: "Yes, I think hobbies are extremely important for teenagers. School can be very stressful with all the exams and homework. Having a hobby helps us relax and feel happy. It is also a great way to make new friends who like the same things." },
+                        { level: "medium", q: "Do you think teenagers spend too much time on their phones?", ideas: ["Yes, playing games and watching videos", "Yes, ignoring family time", "No, they use it to learn", "No, it is how they talk to friends"], short: "Yes, sometimes we spend too many hours watching videos.", long: "Honestly, yes. I think many teenagers, including me, spend too much time looking at screens. It is very easy to spend hours scrolling through TikTok or playing games. We probably should spend more time doing active hobbies outside." },
+                        { level: "opinion", q: "Some people say video games are a waste of time. Do you agree?", ideas: ["Agree: Bad for eyes, stops you studying", "Disagree: Good for brain, social, fun"], short: "No, I disagree. Games are fun and help you solve problems.", long: "I disagree with that. Some people think games are bad, but I think they are useful. Playing multiplayer games helps you learn how to work in a team and communicate. They also make you think fast and solve problems. Of course, we shouldn't play all day." },
+                        { level: "opinion", q: "Should schools give students more free time and less homework?", ideas: ["Yes, students need time to play", "Yes, we need time for sports and music", "No, homework is important to learn"], short: "Yes, I think we have too much homework and no time to play.", long: "Yes, I strongly believe schools should give less homework. When we finish school at 4 PM, we are already tired. If we have three hours of homework, we have zero free time to do sports, read for fun, or just relax with our families. We need balance." },
+                        { level: "opinion", q: "Can a hobby become your job in the future?", ideas: ["Yes, like streamers or sports players", "Yes, turning cooking into a chef job", "No, hobbies are just for fun"], short: "Yes! If your hobby is drawing, you can be an artist.", long: "Yes, absolutely! I think the best jobs start as hobbies. For example, if your hobby is writing stories, you could become a famous author. Or if you love playing video games, you might become an e-sports player or a game designer. If you love what you do, work is fun." }
+                    ];
+
+                    const levelStyles = { 
+                        easy: { color: 'green' }, 
+                        medium: { color: 'yellow' }, 
+                        opinion: { color: 'purple' } 
+                    };
+
+                    speakingData.forEach((item, index) => {
+                        let style = levelStyles[item.level];
+                        let ideasHtml = item.ideas.map(idea => `<span class="bg-white text-slate-700 px-4 py-2 rounded-xl text-lg font-bold border border-slate-200 shadow-sm flex items-center gap-2"><i class="fa-solid fa-lightbulb text-yellow-500"></i>${idea}</span>`).join('');
+                        
+                        document.write(`
+                            <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition duration-300">
+                                <button onclick="toggleElement('q-content-${index}')" class="w-full text-left p-8 flex items-center justify-between bg-white hover:bg-slate-50 transition group">
+                                    <div class="flex items-start md:items-center gap-6">
+                                        <div class="w-12 h-12 rounded-full bg-${style.color}-100 text-${style.color}-600 flex items-center justify-center font-black text-2xl flex-shrink-0 border border-${style.color}-200">${index + 1}</div>
+                                        <h3 class="font-black text-2xl md:text-3xl text-slate-800 pr-4 group-hover:text-purple-600 transition-colors">${item.q}</h3>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down text-slate-400 text-3xl group-hover:text-purple-500 transition-colors"></i>
+                                </button>
                                 
-                                <!-- Section 5: Sample Answers -->
-                                <div>
-                                    <h4 class="text-base md:text-lg font-bold text-gray-500 uppercase mb-3 flex items-center gap-2">📝 Sample Answers</h4>
-                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                                        <div class="bg-green-50 p-5 rounded-2xl border border-green-200 shadow-sm">
-                                            <span class="text-sm font-bold text-green-800 uppercase bg-green-200 px-3 py-1 rounded-md mb-3 inline-block">Short Answer</span>
-                                            <p class="text-gray-800 text-lg md:text-xl leading-relaxed break-words">${item.short}</p>
+                                <div id="q-content-${index}" class="hidden border-t border-slate-100 fade-in bg-slate-50">
+                                    <div class="p-8 space-y-8">
+                                        
+                                        <!-- Idea Bank -->
+                                        <div>
+                                            <h4 class="text-xl font-black text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2"><i class="fa-solid fa-box-open"></i> Idea Bank</h4>
+                                            <div class="flex flex-wrap gap-4">
+                                                ${ideasHtml}
+                                            </div>
                                         </div>
-                                        <div class="bg-blue-50 p-5 rounded-2xl border border-blue-200 shadow-sm">
-                                            <span class="text-sm font-bold text-blue-800 uppercase bg-blue-200 px-3 py-1 rounded-md mb-3 inline-block">Extended Answer</span>
-                                            <p class="text-gray-800 text-lg md:text-xl leading-relaxed break-words">${item.long}</p>
+
+                                        <!-- Sample Answers -->
+                                        <div class="space-y-6">
+                                            <h4 class="text-xl font-black text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-quote-left"></i> Sample Answers</h4>
+                                            
+                                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                                                <div class="flex justify-between items-center mb-4 cursor-pointer group" onclick="toggleElement('short-ans-${index}')">
+                                                    <span class="font-black text-purple-600 text-xl flex items-center"><i class="fa-solid fa-comment-dots mr-3 text-2xl"></i>Short Answer (A2)</span>
+                                                    <span class="bg-slate-100 text-slate-500 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-purple-100 group-hover:text-purple-600 transition">Show / Hide</span>
+                                                </div>
+                                                <p id="short-ans-${index}" class="hidden text-slate-700 text-2xl border-l-4 border-purple-400 pl-5 py-3 bg-purple-50/50 rounded-r-lg font-medium leading-relaxed">"${item.short}"</p>
+                                            </div>
+
+                                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                                                <div class="flex justify-between items-center mb-4 cursor-pointer group" onclick="toggleElement('long-ans-${index}')">
+                                                    <span class="font-black text-indigo-600 text-xl flex items-center"><i class="fa-solid fa-comments mr-3 text-2xl"></i>Extended Answer (B1/B2)</span>
+                                                    <span class="bg-slate-100 text-slate-500 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-indigo-100 group-hover:text-indigo-600 transition">Show / Hide</span>
+                                                </div>
+                                                <p id="long-ans-${index}" class="hidden text-slate-800 text-2xl border-l-4 border-indigo-500 pl-5 py-4 bg-indigo-50/50 rounded-r-lg font-medium leading-relaxed">"${item.long}"</p>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
-                });
-            </script>
-            <button class="mt-8 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl text-xl transition-all shadow-lg active:transform active:scale-95" onclick="markComplete(3, this)">✅ Mark Section Complete</button>
+                        `);
+                    });
+                </script>
+            </div>
+            <div class="mt-10 flex justify-end">
+                <label class="flex items-center gap-4 cursor-pointer bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition">
+                    <input type="checkbox" onchange="checkTask('speaking-check')" class="w-8 h-8 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer">
+                    <span class="font-black text-slate-700 text-2xl">I practiced the speaking questions</span>
+                </label>
+            </div>
         </section>
 
-        <!-- SECTION 6: ROLE-PLAY -->
-        <section class="bg-white rounded-3xl p-6 md:p-10 shadow-lg section-container border-t-4 border-orange-500" id="sec-4">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-orange-500">4️⃣ Role-play Scenarios</h2>
-                <span class="text-4xl md:text-5xl">🎭</span>
-            </div>
-            <p class="text-gray-600 mb-8 text-xl">Work with your partner. Choose a role and act out the situation!</p>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Scenario 1 -->
-                <div class="bg-orange-50 rounded-3xl p-6 md:p-8 border-2 border-orange-200 shadow-sm flex flex-col">
-                    <h3 class="text-2xl md:text-3xl font-bold text-orange-700 mb-4">Scenario A: The New Hobby</h3>
-                    <p class="text-gray-800 text-lg md:text-xl mb-6 leading-relaxed"><strong class="text-orange-800">Situation:</strong> You want to start a new after-school club (like Coding or Drama) but you don't want to go alone. Try to convince your friend to join you.</p>
-                    
-                    <div class="space-y-4 mb-6 flex-grow">
-                        <div class="bg-white p-4 rounded-xl border border-orange-200 shadow-sm text-lg md:text-xl break-words">
-                            <span class="font-bold text-orange-600 block mb-1">Student A:</span> The one who wants to join the club. Give reasons why it will be fun.
-                        </div>
-                        <div class="bg-white p-4 rounded-xl border border-orange-200 shadow-sm text-lg md:text-xl break-words">
-                            <span class="font-bold text-orange-600 block mb-1">Student B:</span> The friend. You are not sure. You prefer playing video games at home. Ask questions.
-                        </div>
-                    </div>
-
-                    <button onclick="toggleElement('hints-rp1')" class="w-full text-lg bg-orange-200 text-orange-800 px-4 py-3 rounded-xl font-bold hover:bg-orange-300 transition-all shadow-sm">Show Dialogue Hints 💬</button>
-                    <div id="hints-rp1" class="hidden mt-4 text-lg text-gray-800 bg-white p-5 rounded-xl border border-orange-200 italic leading-relaxed break-words">
-                        "Hey, do you want to join the... with me?"<br><br>
-                        "I don't know, I usually..."<br><br>
-                        "But it will be fun because..."<br><br>
-                        "How much time will it take?"
+        <section id="roleplay" class="relative">
+            <div class="flex items-center justify-between mb-10 flex-wrap gap-6">
+                <div class="flex items-center gap-5">
+                    <div class="bg-pink-100 text-pink-600 w-16 h-16 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-pink-200"><i class="fa-solid fa-user-group"></i></div>
+                    <div>
+                        <h2 class="text-4xl font-black text-slate-800">4. Interactive Role-play</h2>
+                        <p class="text-slate-500 font-bold text-xl">Discuss with your partner and reach a decision.</p>
                     </div>
                 </div>
-
-                <!-- Scenario 2 -->
-                <div class="bg-blue-50 rounded-3xl p-6 md:p-8 border-2 border-blue-200 shadow-sm flex flex-col">
-                    <h3 class="text-2xl md:text-3xl font-bold text-blue-700 mb-4">Scenario B: Screen Time Rules</h3>
-                    <p class="text-gray-800 text-lg md:text-xl mb-6 leading-relaxed"><strong class="text-blue-800">Situation:</strong> You want to play a video game for one more hour, but you already used your daily screen time. Talk to your parent.</p>
-                    
-                    <div class="space-y-4 mb-6 flex-grow">
-                        <div class="bg-white p-4 rounded-xl border border-blue-200 shadow-sm text-lg md:text-xl break-words">
-                            <span class="font-bold text-blue-600 block mb-1">Student A:</span> The teenager. Ask politely and promise to do chores (housework) later.
-                        </div>
-                        <div class="bg-white p-4 rounded-xl border border-blue-200 shadow-sm text-lg md:text-xl break-words">
-                            <span class="font-bold text-blue-600 block mb-1">Student B:</span> The Parent. You are strict. Say no at first, but maybe make a deal.
-                        </div>
-                    </div>
-
-                    <button onclick="toggleElement('hints-rp2')" class="w-full text-lg bg-blue-200 text-blue-800 px-4 py-3 rounded-xl font-bold hover:bg-blue-300 transition-all shadow-sm">Show Dialogue Hints 💬</button>
-                    <div id="hints-rp2" class="hidden mt-4 text-lg text-gray-800 bg-white p-5 rounded-xl border border-blue-200 italic leading-relaxed break-words">
-                        "Mom/Dad, can I please have one more hour on..."<br><br>
-                        "You know the rules. You already spent..."<br><br>
-                        "I promise I will clean my room if..."<br><br>
-                        "Okay, but only if you..."
+                
+                <!-- Role-play Timer -->
+                <div class="bg-white border-4 border-pink-200 rounded-2xl px-6 py-3 flex items-center gap-5 shadow-sm">
+                    <span class="text-4xl font-mono font-black text-pink-600" id="rp-timer-display">03:00</span>
+                    <div class="flex gap-3">
+                        <button onclick="startRpTimer()" id="rp-btn-start" class="bg-pink-500 hover:bg-pink-600 text-white p-3 rounded-xl transition text-xl" title="Start/Pause">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        <button onclick="resetRpTimer()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 p-3 rounded-xl transition text-xl" title="Reset">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-            <button class="mt-8 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl text-xl transition-all shadow-lg active:transform active:scale-95" onclick="markComplete(4, this)">✅ Mark Section Complete</button>
-        </section>
 
-        <!-- SECTION 7: FLUENCY BUILDER -->
-        <section class="bg-white rounded-3xl p-6 md:p-10 shadow-lg section-container border-t-4 border-teal-500" id="sec-5">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-teal-600">5️⃣ Fluency Builder</h2>
-                <span class="text-4xl md:text-5xl">🚀</span>
-            </div>
-            <p class="text-gray-600 mb-8 text-xl">Click the flashcards to flip them! Use these sentence starters to sound more natural when you speak.</p>
-
-            <!-- Adjusted to h-40/h-48 to prevent text overflow -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6" id="flashcard-container">
-                <!-- Generated via JS -->
-            </div>
-            
-            <script>
-                const starters = [
-                    { front: "In my free time, I usually...", back: "...play games / read / go outside." },
-                    { front: "My absolute favorite hobby is...", back: "...because it is so relaxing." },
-                    { front: "If I have to choose, I prefer...", back: "...A over B because..." },
-                    { front: "In my opinion...", back: "...we spend too much time inside." },
-                    { front: "One reason is that...", back: "...it helps me focus better." },
-                    { front: "For example,...", back: "...last weekend I went cycling." },
-                    { front: "On the one hand...", back: "...screens are very useful." },
-                    { front: "But on the other hand...", back: "...they can hurt our eyes." },
-                    { front: "To be honest...", back: "...I am addicted to my phone." },
-                    { front: "In the future, I would like to...", back: "...try surfing or coding." }
-                ];
-
-                const fcContainer = document.getElementById('flashcard-container');
-                starters.forEach((item, index) => {
-                    fcContainer.innerHTML += `
-                        <div class="flashcard h-40 sm:h-48" onclick="this.classList.toggle('flipped')">
-                            <div class="flashcard-inner">
-                                <div class="flashcard-front">
-                                    <p class="font-bold text-teal-800 text-lg md:text-xl leading-tight">${item.front}</p>
-                                </div>
-                                <div class="flashcard-back">
-                                    <p class="font-bold text-blue-800 text-lg md:text-xl leading-tight">${item.back}</p>
-                                </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Scenario A -->
+                <div class="bg-white p-8 rounded-[2rem] border-2 border-slate-200 shadow-sm hover:shadow-xl transition-shadow flex flex-col">
+                    <div class="bg-pink-100 text-pink-800 px-4 py-2 rounded-xl text-base font-black uppercase tracking-widest inline-block mb-6 border border-pink-200 w-max">Scenario A</div>
+                    <h3 class="text-3xl font-black text-slate-800 mb-4">Starting a School Club</h3>
+                    
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-8">
+                        <p class="text-slate-700 text-xl font-medium mb-3"><strong class="text-slate-900 font-black">Situation:</strong> Your school wants to open a new after-school club.</p>
+                        <p class="text-pink-600 text-xl font-bold"><strong class="text-slate-900 font-black">Task:</strong> Talk together and choose the best club: Art Club, Sports Club, or Coding Club.</p>
+                    </div>
+                    
+                    <div class="space-y-6 mb-8 flex-grow">
+                        <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex gap-5 items-start shadow-sm">
+                            <div class="bg-blue-200 text-blue-800 w-12 h-12 rounded-full flex items-center justify-center font-black text-2xl flex-shrink-0">A</div>
+                            <div>
+                                <strong class="text-2xl text-blue-900 block mb-2 font-black">Student A</strong>
+                                <ul class="list-disc list-inside text-lg text-blue-800 space-y-2 ml-1 font-medium">
+                                    <li><strong>Goal:</strong> You really want the Sports Club.</li>
+                                    <li><strong>Mention:</strong> Students need to be active and healthy.</li>
+                                </ul>
                             </div>
                         </div>
-                    `;
-                });
-            </script>
-            <button class="mt-10 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl text-xl transition-all shadow-lg active:transform active:scale-95" onclick="markComplete(5, this)">✅ Mark Section Complete</button>
+                        <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100 flex gap-5 items-start shadow-sm">
+                            <div class="bg-indigo-200 text-indigo-800 w-12 h-12 rounded-full flex items-center justify-center font-black text-2xl flex-shrink-0">B</div>
+                            <div>
+                                <strong class="text-2xl text-indigo-900 block mb-2 font-black">Student B</strong>
+                                <ul class="list-disc list-inside text-lg text-indigo-800 space-y-2 ml-1 font-medium">
+                                    <li><strong>Goal:</strong> You prefer the Art Club or Coding Club.</li>
+                                    <li><strong>Mention:</strong> Sports can be too tiring. We need to learn skills.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="toggleElement('rp1-hints')" class="w-full bg-pink-50 text-pink-700 border-2 border-pink-200 font-black text-xl py-4 rounded-2xl hover:bg-pink-100 transition shadow-sm mt-auto">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> View Useful Phrases
+                    </button>
+                    <div id="rp1-hints" class="hidden mt-5 bg-white border-2 border-pink-100 p-6 rounded-2xl text-xl fade-in space-y-4 shadow-inner">
+                        <p class="text-slate-700 font-medium"><strong class="text-blue-700 font-black">A:</strong> "I think the Sports Club is best because..."</p>
+                        <hr class="border-pink-50">
+                        <p class="text-slate-700 font-medium"><strong class="text-indigo-700 font-black">B:</strong> "I see your point, but coding is very useful for the future."</p>
+                    </div>
+                </div>
+
+                <!-- Scenario B -->
+                <div class="bg-white p-8 rounded-[2rem] border-2 border-slate-200 shadow-sm hover:shadow-xl transition-shadow flex flex-col">
+                    <div class="bg-teal-100 text-teal-800 px-4 py-2 rounded-xl text-base font-black uppercase tracking-widest inline-block mb-6 border border-teal-200 w-max">Scenario B</div>
+                    <h3 class="text-3xl font-black text-slate-800 mb-4">Weekend Plans</h3>
+                    
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-8">
+                        <p class="text-slate-700 text-xl font-medium mb-3"><strong class="text-slate-900 font-black">Situation:</strong> You and your friend have a free weekend.</p>
+                        <p class="text-teal-600 text-xl font-bold"><strong class="text-slate-900 font-black">Task:</strong> Decide what to do together: Go to the cinema, play video games, or go cycling.</p>
+                    </div>
+                    
+                    <div class="space-y-6 mb-8 flex-grow">
+                        <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 flex gap-5 items-start shadow-sm">
+                            <div class="bg-emerald-200 text-emerald-800 w-12 h-12 rounded-full flex items-center justify-center font-black text-2xl flex-shrink-0">A</div>
+                            <div>
+                                <strong class="text-2xl text-emerald-900 block mb-2 font-black">The Gamer</strong>
+                                <ul class="list-disc list-inside text-lg text-emerald-800 space-y-2 ml-1 font-medium">
+                                    <li><strong>Goal:</strong> You want to stay home and play games.</li>
+                                    <li><strong>Mention:</strong> It's comfortable and cheap.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 flex gap-5 items-start shadow-sm">
+                            <div class="bg-slate-300 text-slate-800 w-12 h-12 rounded-full flex items-center justify-center font-black text-2xl flex-shrink-0">B</div>
+                            <div>
+                                <strong class="text-2xl text-slate-800 block mb-2 font-black">The Active Friend</strong>
+                                <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 ml-1 font-medium">
+                                    <li><strong>Goal:</strong> You want to go outside (cinema or cycling).</li>
+                                    <li><strong>Mention:</strong> We play too many games during the week.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="toggleElement('rp2-hints')" class="w-full bg-teal-50 text-teal-700 border-2 border-teal-200 font-black text-xl py-4 rounded-2xl hover:bg-teal-100 transition shadow-sm mt-auto">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> View Useful Phrases
+                    </button>
+                    <div id="rp2-hints" class="hidden mt-5 bg-white border-2 border-teal-100 p-6 rounded-2xl text-xl fade-in space-y-4 shadow-inner">
+                        <p class="text-slate-700 font-medium"><strong class="text-emerald-700 font-black">A:</strong> "Why don't we just stay home and play Minecraft?"</p>
+                        <hr class="border-teal-50">
+                        <p class="text-slate-700 font-medium"><strong class="text-slate-800 font-black">B:</strong> "Let's do something active! How about we go cycling in the park?"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 flex justify-end">
+                <label class="flex items-center gap-4 cursor-pointer bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition">
+                    <input type="checkbox" onchange="checkTask('roleplay-check')" class="w-8 h-8 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer">
+                    <span class="font-black text-slate-700 text-2xl">I completed a role-play</span>
+                </label>
+            </div>
         </section>
 
-        <!-- SECTION 8: REVIEW GAME -->
-        <section class="bg-white rounded-3xl p-6 md:p-10 shadow-lg section-container border-t-4 border-yellow-400" id="sec-6">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-yellow-500">6️⃣ Mini Review Game</h2>
-                <span class="text-4xl md:text-5xl">🎮</span>
-            </div>
-            <p class="text-gray-600 mb-8 text-xl">Match the vocabulary word to its correct meaning! Click a word on the left, then click its meaning on the right.</p>
-
-            <div id="game-message" class="hidden text-center text-2xl md:text-3xl font-bold text-green-600 mb-8 bg-green-100 p-6 rounded-2xl border-2 border-green-300 shadow-sm animate-pulse">
-                🎉 Congratulations! You matched them all! 🎉
+        <section id="fluency" class="relative">
+            <div class="flex items-center gap-5 mb-10">
+                <div class="bg-cyan-100 text-cyan-600 w-16 h-16 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-cyan-200"><i class="fa-solid fa-bolt"></i></div>
+                <div>
+                    <h2 class="text-4xl font-black text-slate-800">5. Fluency Builder</h2>
+                    <p class="text-slate-500 font-bold text-xl">Click to flip and learn useful sentence starters.</p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <div class="flex flex-col space-y-4" id="words-col">
-                    <!-- Words generated by JS -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <script>
+                    const starters = [
+                        { front: "Expressing Likes", back: "I really enjoy..." },
+                        { front: "Expressing Dislikes", back: "I am not a big fan of..." },
+                        { front: "Giving a Reason", back: "The main reason is..." },
+                        { front: "Adding Information", back: "Also, I think that..." },
+                        { front: "Giving an Example", back: "For example, I usually..." },
+                        { front: "Asking for Opinion", back: "What do you think about...?" },
+                        { front: "Agreeing", back: "Yes, I completely agree!" },
+                        { front: "Disagreeing", back: "I see your point, but..." },
+                        { front: "Showing Preference", back: "I would rather..." },
+                        { front: "Concluding", back: "So, overall..." }
+                    ];
+
+                    starters.forEach(s => {
+                        document.write(`
+                            <div class="perspective-1000 h-40 w-full cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+                                <div class="card-inner relative w-full h-full card-flip-transition transform-style-3d rounded-2xl shadow-sm group-hover:shadow-xl">
+                                    <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center p-4 text-center transition-colors group-hover:border-cyan-400">
+                                        <span class="text-lg font-black text-slate-600 uppercase tracking-wide leading-tight">${s.front}</span>
+                                    </div>
+                                    <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-cyan-500 border-2 border-cyan-600 rounded-2xl flex items-center justify-center p-5 text-center shadow-inner overflow-y-auto custom-scrollbar">
+                                        <span class="text-2xl font-black text-white leading-tight">"${s.back}"</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+                </script>
+            </div>
+            <div class="mt-10 flex justify-end">
+                <label class="flex items-center gap-4 cursor-pointer bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition">
+                    <input type="checkbox" onchange="checkTask('fluency-check')" class="w-8 h-8 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer">
+                    <span class="font-black text-slate-700 text-2xl">I reviewed the fluency phrases</span>
+                </label>
+            </div>
+        </section>
+
+        <section id="review" class="relative">
+            <div class="flex items-center gap-5 mb-10">
+                <div class="bg-yellow-100 text-yellow-600 w-16 h-16 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-yellow-200"><i class="fa-solid fa-puzzle-piece"></i></div>
+                <div>
+                    <h2 class="text-4xl font-black text-slate-800">6. Review Game: Concept Match</h2>
+                    <p class="text-slate-500 font-bold text-xl">Click a word on the left, then click its meaning on the right.</p>
                 </div>
-                <div class="flex flex-col space-y-4" id="defs-col">
-                    <!-- Defs generated by JS -->
+            </div>
+
+            <div class="bg-slate-50 p-10 rounded-[2rem] border-2 border-slate-200 shadow-inner flex flex-col md:flex-row gap-10">
+                <div class="w-full md:w-5/12 flex flex-col gap-5" id="game-words">
+                    <!-- Injected by JS -->
                 </div>
+                <div class="w-full md:w-7/12 flex flex-col gap-5" id="game-defs">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+            <div class="mt-10 flex justify-between items-center">
+                <button onclick="initGame()" class="text-xl font-black text-slate-500 hover:text-slate-800 transition flex items-center bg-white px-6 py-3 rounded-2xl shadow-sm border border-slate-200">
+                    <i class="fa-solid fa-rotate-right mr-3"></i>Reset Game
+                </button>
+                <label class="flex items-center gap-4 cursor-pointer bg-white px-6 py-4 rounded-2xl shadow-sm border border-slate-200 hover:bg-slate-50 transition">
+                    <input type="checkbox" onchange="checkTask('game-check')" class="w-8 h-8 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer">
+                    <span class="font-black text-slate-700 text-2xl">I completed the game</span>
+                </label>
+            </div>
+        </section>
+
+        <section id="reflection" class="bg-slate-900 text-white rounded-[2rem] p-12 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 text-slate-800 opacity-50"><i class="fa-solid fa-clipboard-check text-[12rem]"></i></div>
+            
+            <div class="text-center mb-12 relative z-10">
+                <h2 class="text-5xl font-black mb-4">Self-Reflection</h2>
+                <p class="text-2xl text-slate-400 font-medium">Evaluate your speaking performance today.</p>
             </div>
             
-            <button class="mt-10 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl text-xl transition-all shadow-lg active:transform active:scale-95" onclick="markComplete(6, this)">✅ Mark Section Complete</button>
+            <div class="max-w-4xl mx-auto space-y-6 relative z-10">
+                <label class="flex items-center justify-between p-6 bg-slate-800/80 rounded-2xl border-2 border-slate-700 cursor-pointer hover:bg-slate-800 transition group shadow-sm">
+                    <span class="font-bold text-2xl text-slate-200 group-hover:text-white transition">Did I answer questions using full sentences?</span>
+                    <input type="checkbox" onchange="checkTask('ref1')" class="w-8 h-8 rounded text-purple-500 bg-slate-900 border-slate-600 focus:ring-offset-slate-900 cursor-pointer">
+                </label>
+                <label class="flex items-center justify-between p-6 bg-slate-800/80 rounded-2xl border-2 border-slate-700 cursor-pointer hover:bg-slate-800 transition group shadow-sm">
+                    <span class="font-bold text-2xl text-slate-200 group-hover:text-white transition">Did I explain 'why' I like my hobbies?</span>
+                    <input type="checkbox" onchange="checkTask('ref2')" class="w-8 h-8 rounded text-purple-500 bg-slate-900 border-slate-600 focus:ring-offset-slate-900 cursor-pointer">
+                </label>
+                <label class="flex items-center justify-between p-6 bg-slate-800/80 rounded-2xl border-2 border-slate-700 cursor-pointer hover:bg-slate-800 transition group shadow-sm">
+                    <span class="font-bold text-2xl text-slate-200 group-hover:text-white transition">Did I listen carefully to my partner?</span>
+                    <input type="checkbox" onchange="checkTask('ref3')" class="w-8 h-8 rounded text-purple-500 bg-slate-900 border-slate-600 focus:ring-offset-slate-900 cursor-pointer">
+                </label>
+                <label class="flex items-center justify-between p-6 bg-slate-800/80 rounded-2xl border-2 border-slate-700 cursor-pointer hover:bg-slate-800 transition group shadow-sm">
+                    <span class="font-bold text-2xl text-slate-200 group-hover:text-white transition">Did I try to use new vocabulary words?</span>
+                    <input type="checkbox" onchange="checkTask('ref4')" class="w-8 h-8 rounded text-purple-500 bg-slate-900 border-slate-600 focus:ring-offset-slate-900 cursor-pointer">
+                </label>
+            </div>
         </section>
 
-        <!-- SECTION 9: SELF-REFLECTION -->
-        <section class="bg-white rounded-3xl p-6 md:p-10 shadow-lg section-container border-t-4 border-indigo-500" id="sec-7">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-indigo-500">7️⃣ Self-Reflection</h2>
-                <span class="text-4xl md:text-5xl">🤔</span>
-            </div>
-            <p class="text-gray-600 mb-8 text-xl">How did you do today? Think about your speaking and click Yes or No.</p>
+    </main>
 
-            <div class="space-y-5">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-5 rounded-2xl border border-gray-200 gap-4">
-                    <span class="text-xl font-bold text-gray-800">1. Was I confident when speaking?</span>
-                    <div class="flex gap-3 w-full sm:w-auto">
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-green-100 hover:border-green-400 transition-all shadow-sm">Yes 👍</button>
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-red-100 hover:border-red-400 transition-all shadow-sm">No 👎</button>
-                    </div>
-                </div>
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-5 rounded-2xl border border-gray-200 gap-4">
-                    <span class="text-xl font-bold text-gray-800">2. Did I try to use new vocabulary?</span>
-                    <div class="flex gap-3 w-full sm:w-auto">
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-green-100 hover:border-green-400 transition-all shadow-sm">Yes 👍</button>
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-red-100 hover:border-red-400 transition-all shadow-sm">No 👎</button>
-                    </div>
-                </div>
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-5 rounded-2xl border border-gray-200 gap-4">
-                    <span class="text-xl font-bold text-gray-800">3. Did I speak loudly and clearly?</span>
-                    <div class="flex gap-3 w-full sm:w-auto">
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-green-100 hover:border-green-400 transition-all shadow-sm">Yes 👍</button>
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-red-100 hover:border-red-400 transition-all shadow-sm">No 👎</button>
-                    </div>
-                </div>
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-5 rounded-2xl border border-gray-200 gap-4">
-                    <span class="text-xl font-bold text-gray-800">4. Did I give long answers with reasons?</span>
-                    <div class="flex gap-3 w-full sm:w-auto">
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-green-100 hover:border-green-400 transition-all shadow-sm">Yes 👍</button>
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-red-100 hover:border-red-400 transition-all shadow-sm">No 👎</button>
-                    </div>
-                </div>
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 p-5 rounded-2xl border border-gray-200 gap-4">
-                    <span class="text-xl font-bold text-gray-800">5. Did I listen carefully to my partner?</span>
-                    <div class="flex gap-3 w-full sm:w-auto">
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-green-100 hover:border-green-400 transition-all shadow-sm">Yes 👍</button>
-                        <button onclick="toggleReflect(this)" class="flex-1 sm:flex-none px-6 py-3 bg-white border-2 border-gray-300 rounded-xl font-bold text-lg hover:bg-red-100 hover:border-red-400 transition-all shadow-sm">No 👎</button>
-                    </div>
-                </div>
-            </div>
-            <button class="mt-10 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-2xl text-xl transition-all shadow-lg active:transform active:scale-95" onclick="markComplete(7, this)">✅ Mark Section Complete & Finish Lesson</button>
-        </section>
-
-        <!-- Footer with Branding and Copyright -->
-        <footer class="text-center pb-8 mt-16 space-y-6">
-            <p class="font-bold text-2xl text-indigo-600">Great job! Remember to practice your English every day. 🌟</p>
-            <div class="bg-white p-6 rounded-2xl shadow-sm inline-block border border-gray-200 text-gray-600 text-base md:text-lg">
-                <p class="mb-2"><strong class="text-gray-800">Bản quyền thuộc về:</strong> Hệ thống Anh Ngữ Lucero (Lucero English System)</p>
-                <p><strong class="text-gray-800">Tác giả biên soạn:</strong> Mr. Lucero</p>
-            </div>
-        </footer>
-
-    </div>
+    <footer class="bg-slate-900 text-white text-center py-12 mt-auto shadow-[0_-10px_20px_rgba(0,0,0,0.1)] relative z-10 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-2xl font-black tracking-wide text-purple-400 mb-4">&copy; Copyright by Lucero English System (LES)</p>
+            <p class="text-xl text-slate-400 font-medium flex items-center justify-center gap-3">
+                <i class="fa-solid fa-pen-nib"></i> Created by: <span class="text-white font-bold bg-white/10 px-5 py-2 rounded-full shadow-sm">Mr. Lucero</span>
+            </p>
+        </div>
+    </footer>
 
     <script>
-        // --- General Interaction Logic ---
+        // --- UI Interactions ---
         function toggleElement(id) {
             const el = document.getElementById(id);
-            if(el.classList.contains('hidden')) {
+            if (el.classList.contains('hidden')) {
                 el.classList.remove('hidden');
             } else {
                 el.classList.add('hidden');
@@ -489,156 +613,218 @@
         }
 
         // --- Progress Tracker Logic ---
-        const totalSections = 7;
-        let completedSections = 0;
-        let completedMap = {};
-
-        function markComplete(sectionNum, btnElement) {
-            if (!completedMap[sectionNum]) {
-                completedMap[sectionNum] = true;
-                completedSections++;
-                
-                // Update button visuals
-                btnElement.classList.replace('bg-green-500', 'bg-gray-300');
-                btnElement.classList.replace('hover:bg-green-600', 'hover:bg-gray-400');
-                btnElement.innerHTML = "🎉 Section Completed!";
-                btnElement.disabled = true;
-
-                // Update Progress Bar
-                const percentage = (completedSections / totalSections) * 100;
-                document.getElementById('progress-bar').style.width = percentage + '%';
-                document.getElementById('progress-text').innerText = completedSections;
-
-                // Show completion message if all done
-                if (completedSections === totalSections) {
-                    showCustomMessage("Awesome! You have completed the entire lesson! 🥳");
-                }
-            }
+        function checkTask(id) {
+            updateProgressBar();
         }
 
-        function showCustomMessage(msg) {
-            // Create custom message box to avoid alert()
-            const box = document.createElement('div');
-            box.className = 'fixed top-24 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-8 py-5 rounded-2xl shadow-2xl z-50 font-bold text-xl md:text-2xl flex items-center gap-4 transition-all opacity-0 w-[90%] max-w-md text-center';
-            box.innerHTML = `<span class="flex-grow">${msg}</span><button onclick="this.parentElement.remove()" class="bg-white/20 hover:bg-white/40 p-2 rounded-full flex-shrink-0">✖</button>`;
-            document.body.appendChild(box);
-            
-            // Fade in
-            setTimeout(() => { box.classList.remove('opacity-0'); }, 10);
-            
-            // Auto remove after 5 seconds
-            setTimeout(() => { 
-                box.classList.add('opacity-0'); 
-                setTimeout(() => box.remove(), 300);
-            }, 5000);
-        }
-
-        // --- Reflection Toggle Logic ---
-        function toggleReflect(btn) {
-            const parent = btn.parentElement;
-            const buttons = parent.querySelectorAll('button');
-            buttons.forEach(b => {
-                b.classList.remove('bg-green-100', 'border-green-400', 'bg-red-100', 'border-red-400');
-                b.classList.add('bg-white', 'border-gray-300');
+        function updateProgressBar() {
+            const allBoxes = document.querySelectorAll('input[type="checkbox"]');
+            let checkedCount = 0;
+            allBoxes.forEach(box => {
+                if(box.checked) checkedCount++;
             });
             
-            if(btn.innerText.includes('Yes')) {
-                btn.classList.remove('bg-white', 'border-gray-300');
-                btn.classList.add('bg-green-100', 'border-green-400');
+            const percentage = Math.round((checkedCount / allBoxes.length) * 100);
+            
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-text').innerText = 'Lesson Progress: ' + percentage + '%';
+            
+            if(percentage === 100) {
+                document.getElementById('progress-text').innerText = 'Lesson Complete! 🎉';
+                document.getElementById('progress-text').classList.add('text-green-600');
             } else {
-                btn.classList.remove('bg-white', 'border-gray-300');
-                btn.classList.add('bg-red-100', 'border-red-400');
+                document.getElementById('progress-text').classList.remove('text-green-600');
             }
         }
 
-        // --- Mini Review Game Logic ---
-        const gamePairs = [
-            { id: 1, word: "Gadget", def: "A small electronic device or tool." },
-            { id: 2, word: "Screen time", def: "Time spent looking at phones, TVs, etc." },
-            { id: 3, word: "Social media", def: "Apps where people share photos." },
-            { id: 4, word: "Outdoor activity", def: "Things you do outside, like sports." },
-            { id: 5, word: "Creative", def: "Good at making new things or ideas." }
+        // Run once on load
+        updateProgressBar();
+
+        // --- Role-play Timer Logic ---
+        let rpTimerInterval;
+        let rpTimeLeft = 180; // 3 minutes
+
+        function updateRpTimerDisplay() {
+            let m = Math.floor(rpTimeLeft / 60).toString().padStart(2, '0');
+            let s = (rpTimeLeft % 60).toString().padStart(2, '0');
+            let display = document.getElementById('rp-timer-display');
+            
+            display.innerText = `${m}:${s}`;
+            
+            if(rpTimeLeft <= 30 && rpTimeLeft > 0) {
+                display.classList.replace('text-pink-600', 'text-red-600');
+            } else if (rpTimeLeft === 0) {
+                display.classList.replace('text-red-600', 'text-red-800');
+            } else {
+                display.classList.remove('text-red-600', 'text-red-800');
+                display.classList.add('text-pink-600');
+            }
+        }
+
+        function startRpTimer() {
+            let btn = document.getElementById('rp-btn-start');
+            btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            btn.classList.replace('bg-pink-500', 'bg-yellow-500');
+            btn.classList.replace('hover:bg-pink-600', 'hover:bg-yellow-600');
+            btn.setAttribute('onclick', 'pauseRpTimer()');
+
+            clearInterval(rpTimerInterval);
+            rpTimerInterval = setInterval(() => {
+                if(rpTimeLeft > 0) {
+                    rpTimeLeft--;
+                    updateRpTimerDisplay();
+                } else {
+                    clearInterval(rpTimerInterval);
+                    pauseRpTimer();
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }, 1000);
+        }
+
+        function pauseRpTimer() {
+            clearInterval(rpTimerInterval);
+            let btn = document.getElementById('rp-btn-start');
+            if(rpTimeLeft > 0) {
+                btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                btn.classList.replace('bg-yellow-500', 'bg-green-500');
+                btn.classList.replace('hover:bg-yellow-600', 'hover:bg-green-600');
+                btn.setAttribute('onclick', 'startRpTimer()');
+            }
+        }
+
+        function resetRpTimer() {
+            clearInterval(rpTimerInterval);
+            rpTimeLeft = 180;
+            updateRpTimerDisplay();
+            
+            let btn = document.getElementById('rp-btn-start');
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-yellow-500', 'bg-green-500', 'hover:bg-yellow-600', 'hover:bg-green-600');
+            btn.classList.add('bg-pink-500', 'hover:bg-pink-600');
+            btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            btn.setAttribute('onclick', 'startRpTimer()');
+        }
+
+        // --- Review Game Logic ---
+        const gameData = [
+            { id: 1, word: "Hobby", def: "An activity done regularly in your free time for fun." },
+            { id: 2, word: "Skill", def: "The ability to do something well after practicing." },
+            { id: 3, word: "Creative", def: "Using imagination to make new things." },
+            { id: 4, word: "Active", def: "Moving around and using physical energy." },
+            { id: 5, word: "Indoors", def: "Inside a building or a house." }
         ];
 
-        let words = [...gamePairs].sort(() => Math.random() - 0.5);
-        let defs = [...gamePairs].sort(() => Math.random() - 0.5);
-
-        const wordsCol = document.getElementById('words-col');
-        const defsCol = document.getElementById('defs-col');
-
-        // Render buttons with full height to match layout and wrap text properly
-        words.forEach(item => {
-            wordsCol.innerHTML += `<div class="h-24 md:h-28"><button class="game-btn word-btn w-full text-left px-6 py-4 bg-white border-2 border-gray-200 rounded-2xl font-bold text-gray-800 text-lg hover:bg-gray-50 transition-all shadow-sm h-full flex items-center" data-id="${item.id}" onclick="selectWord(this)">${item.word}</button></div>`;
-        });
-
-        defs.forEach(item => {
-            defsCol.innerHTML += `<div class="h-24 md:h-28"><button class="game-btn def-btn w-full text-left px-6 py-4 bg-white border-2 border-gray-200 rounded-2xl font-medium text-gray-700 text-lg hover:bg-gray-50 transition-all shadow-sm h-full flex items-center" data-id="${item.id}" onclick="selectDef(this)">${item.def}</button></div>`;
-        });
-
-        let selectedWordBtn = null;
-        let selectedDefBtn = null;
+        let selectedWord = null;
+        let selectedDef = null;
         let matchesFound = 0;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function initGame() {
+            const wordsContainer = document.getElementById('game-words');
+            const defsContainer = document.getElementById('game-defs');
+            
+            wordsContainer.innerHTML = '';
+            defsContainer.innerHTML = '';
+            
+            selectedWord = null;
+            selectedDef = null;
+            matchesFound = 0;
+
+            const shuffledWords = shuffleArray([...gameData]);
+            const shuffledDefs = shuffleArray([...gameData]);
+
+            shuffledWords.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = 'match-btn w-full text-left p-6 rounded-2xl border-4 border-slate-200 font-black text-2xl text-slate-700 bg-white shadow-sm transition hover:border-purple-300';
+                btn.innerText = item.word;
+                btn.dataset.id = item.id;
+                btn.onclick = () => selectWord(btn);
+                wordsContainer.appendChild(btn);
+            });
+
+            shuffledDefs.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = 'match-btn w-full text-left p-6 rounded-2xl border-4 border-slate-200 font-bold text-xl text-slate-600 bg-slate-50 shadow-sm transition hover:border-purple-300';
+                btn.innerText = item.def;
+                btn.dataset.id = item.id;
+                btn.onclick = () => selectDef(btn);
+                defsContainer.appendChild(btn);
+            });
+        }
 
         function selectWord(btn) {
             if(btn.classList.contains('matched')) return;
-            
-            // Deselect previous
-            document.querySelectorAll('.word-btn').forEach(b => b.classList.remove('selected', 'border-blue-500'));
-            
-            // Select new
-            btn.classList.add('selected', 'border-blue-500');
-            selectedWordBtn = btn;
-            
+            if(selectedWord) selectedWord.classList.remove('selected');
+            if(selectedWord !== btn) {
+                selectedWord = btn;
+                btn.classList.add('selected');
+            } else {
+                selectedWord = null; 
+            }
             checkMatch();
         }
 
         function selectDef(btn) {
             if(btn.classList.contains('matched')) return;
-            
-            // Deselect previous
-            document.querySelectorAll('.def-btn').forEach(b => b.classList.remove('selected', 'border-blue-500'));
-            
-            // Select new
-            btn.classList.add('selected', 'border-blue-500');
-            selectedDefBtn = btn;
-            
+            if(selectedDef) selectedDef.classList.remove('selected');
+            if(selectedDef !== btn) {
+                selectedDef = btn;
+                btn.classList.add('selected');
+            } else {
+                selectedDef = null;
+            }
             checkMatch();
         }
 
         function checkMatch() {
-            if(selectedWordBtn && selectedDefBtn) {
-                const wordId = selectedWordBtn.getAttribute('data-id');
-                const defId = selectedDefBtn.getAttribute('data-id');
-
-                if(wordId === defId) {
-                    // Match!
-                    selectedWordBtn.classList.remove('selected', 'border-blue-500');
-                    selectedDefBtn.classList.remove('selected', 'border-blue-500');
+            if(selectedWord && selectedDef) {
+                if(selectedWord.dataset.id === selectedDef.dataset.id) {
+                    selectedWord.classList.remove('selected');
+                    selectedDef.classList.remove('selected');
                     
-                    selectedWordBtn.classList.add('matched');
-                    selectedDefBtn.classList.add('matched');
+                    selectedWord.classList.add('matched');
+                    selectedDef.classList.add('matched');
                     
-                    selectedWordBtn = null;
-                    selectedDefBtn = null;
+                    selectedWord.innerHTML += ' <i class="fa-solid fa-circle-check float-right mt-1 text-3xl"></i>';
+                    
+                    selectedWord = null;
+                    selectedDef = null;
                     matchesFound++;
-
-                    if(matchesFound === gamePairs.length) {
-                        document.getElementById('game-message').classList.remove('hidden');
+                    
+                    if(matchesFound === gameData.length) {
+                        setTimeout(() => {
+                            const event = new Event('change');
+                            document.querySelector('input[onchange="checkTask(\'game-check\')"]').checked = true;
+                            document.querySelector('input[onchange="checkTask(\'game-check\')"]').dispatchEvent(event);
+                        }, 400);
                     }
                 } else {
-                    // Wrong match
-                    selectedWordBtn.classList.add('wrong');
-                    selectedDefBtn.classList.add('wrong');
+                    selectedWord.classList.add('error');
+                    selectedDef.classList.add('error');
+                    
+                    const tempW = selectedWord;
+                    const tempD = selectedDef;
+                    
+                    selectedWord = null;
+                    selectedDef = null;
                     
                     setTimeout(() => {
-                        if(selectedWordBtn) selectedWordBtn.classList.remove('wrong', 'selected', 'border-blue-500');
-                        if(selectedDefBtn) selectedDefBtn.classList.remove('wrong', 'selected', 'border-blue-500');
-                        selectedWordBtn = null;
-                        selectedDefBtn = null;
+                        tempW.classList.remove('selected', 'error');
+                        tempD.classList.remove('selected', 'error');
                     }, 500);
                 }
             }
         }
+
+        window.onload = initGame;
     </script>
 </body>
 </html>
